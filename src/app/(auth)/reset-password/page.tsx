@@ -1,11 +1,11 @@
-import SignupForm from "@/components/Signup/SignupForm";
+import ResetPasswordForm from "@/components/ResetPassword/ResetPasswordForm";
 import React from "react";
 
 const page = () => {
   return (
     <>
       <section className="p-[20px]">
-        <SignupForm />
+        <ResetPasswordForm />
       </section>
     </>
   );

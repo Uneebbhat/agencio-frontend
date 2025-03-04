@@ -37,7 +37,7 @@ const useSignup = () => {
         password: formData.password,
         token: "token",
       });
-      router.push("/dashboard");
+      router.push("/launchpad");
     } catch (error: any) {
       toast.error(`Error: ${error.message}`);
     } finally {

@@ -32,13 +32,13 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (user) {
-      router.replace("/dashboard");
+      router.replace("/launchpad");
     }
   }, [user, router]);
 
   return (
     <>
-      <Card className="relative overflow-hidden w-[450px]">
+      <Card className="relative overflow-hidden">
         <ShineBorder shineColor={["#A07CFE", "#FE8FB5", "#FFBE7B"]} />
         <CardHeader>
           <CardTitle>Create an Account</CardTitle>
@@ -115,7 +115,7 @@ const SignupForm = () => {
           <Separator className="mb-4" />
           <div className="w-full relative">
             <Badge
-              className="absolute z-20 right-[-5px] top-[-5px] bg-white"
+              className="absolute z-20 right-[-5px] top-[-5px]"
               variant="outline"
             >
               Coming soon

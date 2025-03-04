@@ -44,7 +44,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
                   const formattedSegment =
                     segment.charAt(0).toUpperCase() +
-                    segment.slice(1).replace(/-/g, " "); // Capitalize
+                    segment.slice(1).replace(/-/g, " ");
 
                   return (
                     <div key={href} className="flex items-center">

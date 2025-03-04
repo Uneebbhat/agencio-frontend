@@ -4,24 +4,18 @@ import * as React from "react";
 import {
   Archive,
   AudioWaveform,
-  BookOpen,
-  Bot,
   ClipboardList,
   Command,
   Folder,
   Frame,
   GalleryVerticalEnd,
   LayoutDashboard,
-  Map,
-  PieChart,
-  Settings2,
-  SquareTerminal,
+  SquareKanban,
   Target,
   Users,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
@@ -71,8 +65,9 @@ const data = {
     },
     { title: "Team", url: "/team", icon: Users },
     { title: "Goals", url: "/goals", icon: Target },
-    { title: "Pipelines", url: "/pipelines", icon: ClipboardList },
+    { title: "Pipelines", url: "/pipelines", icon: SquareKanban },
     { title: "Bucket", url: "/bucket", icon: Archive },
+    { title: "Launchpad", url: "/launchpad", icon: ClipboardList },
   ],
 };
 
