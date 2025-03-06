@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/store/useUserStore";
+import axios from "axios";
 
 interface LoginFormDataProps {
   email: string;
@@ -24,19 +25,20 @@ const useLogin = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      console.log(formData);
-      toast.success("Login successfully");
-      router.push("/dashboard");
-      login({
-        id: "12",
-        name: "Uneeb",
+      const res = await axios.post("/api/v1/login", {
         email: formData.email,
         password: formData.password,
-        token: "123",
       });
+      toast.success(res.data.message);
+      login({
+        id: res.data.data._id,
+        name: res.data.data.name,
+        email: res.data.data.email,
+        token: res.data.token,
+      });
+      router.push("/dashboard");
     } catch (error: any) {
-      toast.error(`Error: ${error.message}`);
+      toast.error(error.response.data.error);
     } finally {
       setLoading(false);
     }

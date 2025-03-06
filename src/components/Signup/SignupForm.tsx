@@ -27,7 +27,13 @@ import { useRouter } from "next/navigation";
 const SignupForm = () => {
   const router = useRouter();
   const { showPassword, handleTogglePassword } = useTogglePassword();
-  const { formData, loading, handleOnChange, handleOnSubmit } = useSignup();
+  const {
+    formData,
+    loading,
+    handleOnChange,
+    handleFileChange,
+    handleOnSubmit,
+  } = useSignup();
   const user = useUserStore((state) => state.getUser());
 
   useEffect(() => {
