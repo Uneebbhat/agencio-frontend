@@ -6,6 +6,7 @@ import useFormHandler from "@/hooks/useFormHandler";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/store/useUserStore";
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface SignupFormDataProps {
   name: string;
@@ -23,7 +24,6 @@ const useSignup = () => {
       password: "",
       profilePic: null,
     });
-  const [loading, setLoading] = useState<boolean>(false);
   const { signup } = useUserStore();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,44 +59,50 @@ const useSignup = () => {
     }
   };
 
+  const mutation = useMutation({
+    mutationKey: ["signup"],
+    mutationFn: async () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            data: {
+              message: "Mock signup successful!",
+              data: {
+                _id: "613618986e68180000000000",
+                name: formData.name,
+                email: formData.email,
+              },
+              token: "mocked_token_abc123",
+            },
+          });
+        }, 1000);
+      });
+    },
+    onSuccess: (data: any) => {
+      console.log(data);
+
+      toast.success(data.data.message);
+      signup({
+        id: data.data.data._id,
+        name: data.data.data.name,
+        email: data.data.data.email,
+        token: data.token,
+      });
+      router.push("/launchpad");
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.error || "Mock signup failed");
+    },
+  });
+
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      // const userFormData = new FormData();
-      // userFormData.append("profilePic", formData.profilePic);
-      // userFormData.append("name", formData.name);
-      // userFormData.append("email", formData.email);
-      // userFormData.append("password", formData.password);
-
-      const res = await axios.post("/api/v1/signup", {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-      });
-      console.log(res.data);
-
-      toast.success(res.data.message);
-      signup({
-        id: res.data.data._id,
-        name: res.data.data.name,
-        email: res.data.data.email,
-        password: res.data.data.password,
-        token: res.data.token,
-      });
-
-      console.log(formData);
-      router.push("/launchpad");
-    } catch (error: any) {
-      toast.error(error.response.data.error);
-    } finally {
-      setLoading(false);
-    }
+    mutation.mutate();
   };
 
   return {
     formData,
-    loading,
+    loading: mutation.isPending,
     handleOnChange,
     handleFileChange,
     handleOnSubmit,

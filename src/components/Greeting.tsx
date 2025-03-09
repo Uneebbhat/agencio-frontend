@@ -13,7 +13,7 @@ const Greeting = () => {
     timeZone: "Asia/Karachi",
   });
 
-  console.log(user);
+  // console.log(user);
 
   const hours = new Date(myDate).getHours();
   let greet;

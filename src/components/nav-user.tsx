@@ -39,11 +39,9 @@ export function NavUser() {
     useUserStore.persist.clearStorage();
     router.push("/login");
   };
-  const firstInitialName = user?.name.split(" ")[0].split("")[0];
-  const lastInitialName = user?.name.split(" ")[1].split("")[0];
-  const initialName = firstInitialName + "" + lastInitialName;
-
-  // const handleUserInitials = () => {};
+  // const firstInitialName = user?.name.split(" ")[0].split("")[0];
+  // const lastInitialName = user?.name.split(" ")[1].split("")[0];
+  // const initialName = firstInitialName + "" + lastInitialName;
 
   return (
     <SidebarMenu>
@@ -57,7 +55,7 @@ export function NavUser() {
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user?.name} alt={user?.name} />
                 <AvatarFallback className="rounded-lg">
-                  {initialName}
+                  {/* {initialName} */}
                 </AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">

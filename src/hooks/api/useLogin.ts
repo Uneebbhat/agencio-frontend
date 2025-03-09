@@ -2,10 +2,9 @@
 
 import useFormHandler from "@/hooks/useFormHandler";
 import { toast } from "sonner";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/store/useUserStore";
-import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 interface LoginFormDataProps {
   email: string;
@@ -18,33 +17,55 @@ const useLogin = () => {
     email: "",
     password: "",
   });
-  const [loading, setLoading] = useState<boolean>(false);
   const { login } = useUserStore();
+
+  const mutation = useMutation({
+    mutationKey: ["login"],
+    mutationFn: async () => {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve({
+            data: {
+              message: "Mock login successful!",
+              data: {
+                _id: "613618986e68180000000000",
+                name: "Uneeb Bhatti",
+                email: formData.email,
+              },
+              token: "mocked_token_abc123",
+            },
+          });
+        }, 1000);
+      });
+    },
+    onSuccess: (data: any) => {
+      console.log(data);
+
+      toast.success(data.data.message);
+      login({
+        id: data.data.data._id,
+        name: data.data.data.name,
+        email: data.data.data.email,
+        token: data.token,
+      });
+      router.push("/dashboard");
+    },
+    onError: (error: any) => {
+      toast.error(error.response?.data?.error || "Mock login failed");
+    },
+  });
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const res = await axios.post("/api/v1/login", {
-        email: formData.email,
-        password: formData.password,
-      });
-      toast.success(res.data.message);
-      login({
-        id: res.data.data._id,
-        name: res.data.data.name,
-        email: res.data.data.email,
-        token: res.data.token,
-      });
-      router.push("/dashboard");
-    } catch (error: any) {
-      toast.error(error.response.data.error);
-    } finally {
-      setLoading(false);
-    }
+    mutation.mutate();
   };
 
-  return { formData, handleOnChange, handleOnSubmit, loading };
+  return {
+    formData,
+    loading: mutation.isPending,
+    handleOnChange,
+    handleOnSubmit,
+  };
 };
 
 export default useLogin;

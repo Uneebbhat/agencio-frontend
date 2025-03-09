@@ -1,5 +1,10 @@
 import LoginForm from "@/components/Login/LoginForm";
+import { Metadata } from "next";
 import React from "react";
+
+export const metadata: Metadata = {
+  title: "Login | Agencio",
+};
 
 const page = () => {
   return (
