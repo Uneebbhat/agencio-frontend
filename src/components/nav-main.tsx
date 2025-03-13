@@ -47,10 +47,20 @@ export function NavMain({
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 {item.items && item.items.length > 0 ? (
-                  <SidebarMenuButton tooltip={item.title}>
-                    {item.icon && <item.icon />}
-                    <span>{item.title}</span>
-                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  <SidebarMenuButton
+                    tooltip={item.title}
+                    className="flex items-center justify-between"
+                  >
+                    <Link href={item.url} className="flex items-center gap-2">
+                      {item.icon && <item.icon size={16} />}
+                      <span>{item.title}</span>
+                    </Link>
+                    <div>
+                      <ChevronRight
+                        className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
+                        size={16}
+                      />
+                    </div>
                   </SidebarMenuButton>
                 ) : (
                   <Link href={item.url} className="w-full">
