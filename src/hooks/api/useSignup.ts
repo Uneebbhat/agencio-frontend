@@ -62,36 +62,27 @@ const useSignup = () => {
   const mutation = useMutation({
     mutationKey: ["signup"],
     mutationFn: async () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            data: {
-              message: "Mock signup successful!",
-              data: {
-                _id: "613618986e68180000000000",
-                name: formData.name,
-                email: formData.email,
-              },
-              token: "mocked_token_abc123",
-            },
-          });
-        }, 1000);
+      const { data } = await axios.post("/api/v1/signup", {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
       });
+      return data;
     },
     onSuccess: (data: any) => {
       console.log(data);
 
-      toast.success(data.data.message);
+      toast.success(data.message);
       signup({
-        id: data.data.data._id,
-        name: data.data.data.name,
-        email: data.data.data.email,
+        id: data.data._id,
+        name: data.data.name,
+        email: data.data.email,
         token: data.token,
       });
       router.push("/launchpad");
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error || "Mock signup failed");
+      toast.error(error.response?.data?.error || "Failed to create account");
     },
   });
 

@@ -3,16 +3,19 @@ import type { NextRequest } from "next/server";
 
 export function middleware(req: NextRequest) {
   const token = req.cookies.get("token")?.value;
+  const { pathname } = req.nextUrl;
 
   if (
-    (token && req.nextUrl.pathname.startsWith("/login")) ||
-    req.nextUrl.pathname.startsWith("/signup")
+    token &&
+    (pathname.startsWith("/login") ||
+      pathname.startsWith("/signup") ||
+      pathname.startsWith("/forgot-password") ||
+      pathname.startsWith("/reset-password"))
   ) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 }
 
-// Apply middleware only to the login page
 export const config = {
-  matcher: ["/login", "/signup"],
+  matcher: ["/login", "/signup", "/forgot-password", "/reset-password/:path*"],
 };

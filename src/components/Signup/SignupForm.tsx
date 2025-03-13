@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,30 +9,25 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import Link from "next/link";
-import Image from "next/image";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import Spinner from "@/components/Spinner";
-import { Eye, EyeClosed } from "lucide-react";
-import useTogglePassword from "@/hooks/useTogglePassword";
 import { ShineBorder } from "@/components/magicui/shine-border";
+import { Eye, EyeClosed } from "lucide-react";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import Spinner from "@/components/Spinner";
+import useTogglePassword from "@/hooks/useTogglePassword";
 import useSignup from "@/hooks/api/useSignup";
 import useUserStore from "@/store/useUserStore";
-import { useRouter } from "next/navigation";
 
 const SignupForm = () => {
   const router = useRouter();
   const { showPassword, handleTogglePassword } = useTogglePassword();
-  const {
-    formData,
-    loading,
-    handleOnChange,
-    handleFileChange,
-    handleOnSubmit,
-  } = useSignup();
+  const { formData, loading, handleOnChange, handleOnSubmit } = useSignup();
   const user = useUserStore((state) => state.getUser());
 
   useEffect(() => {
