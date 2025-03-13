@@ -37,6 +37,7 @@ const useLogin = () => {
         id: data.data._id,
         name: data.data.name,
         email: data.data.email,
+        profilePic: data.data.profilePic,
         token: data.token,
       });
       router.push("/dashboard");

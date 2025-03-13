@@ -6,6 +6,7 @@ interface User {
   name: string;
   email: string;
   password?: string;
+  profilePic: string;
   token: string;
 }
 

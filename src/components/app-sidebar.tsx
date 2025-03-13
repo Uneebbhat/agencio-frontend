@@ -63,9 +63,18 @@ const data = {
         { title: "Facebook", url: "/projects/facebook", icon: Frame },
       ],
     },
+    {
+      title: "Pipelines",
+      url: "/pipelines",
+      icon: SquareKanban,
+      items: [
+        { title: "MicroSoft", url: "/projects/microsoft", icon: Frame },
+        { title: "Google", url: "/projects/google", icon: Frame },
+        { title: "Facebook", url: "/projects/facebook", icon: Frame },
+      ],
+    },
     { title: "Team", url: "/team", icon: Users },
     { title: "Goals", url: "/goals", icon: Target },
-    { title: "Pipelines", url: "/pipelines", icon: SquareKanban },
     { title: "Bucket", url: "/bucket", icon: Archive },
     { title: "Launchpad", url: "/launchpad", icon: ClipboardList },
   ],
@@ -81,7 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
