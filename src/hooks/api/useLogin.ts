@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/store/useUserStore";
 import { useMutation } from "@tanstack/react-query";
+import axios from "axios";
 
 interface LoginFormDataProps {
   email: string;
@@ -22,36 +23,26 @@ const useLogin = () => {
   const mutation = useMutation({
     mutationKey: ["login"],
     mutationFn: async () => {
-      return new Promise((resolve) => {
-        setTimeout(() => {
-          resolve({
-            data: {
-              message: "Mock login successful!",
-              data: {
-                _id: "613618986e68180000000000",
-                name: "Uneeb Bhatti",
-                email: formData.email,
-              },
-              token: "mocked_token_abc123",
-            },
-          });
-        }, 1000);
+      const { data } = await axios.post("/api/v1/login", {
+        email: formData.email,
+        password: formData.password,
       });
+      return data;
     },
     onSuccess: (data: any) => {
       console.log(data);
 
-      toast.success(data.data.message);
+      toast.success(data.message);
       login({
-        id: data.data.data._id,
-        name: data.data.data.name,
-        email: data.data.data.email,
+        id: data.data._id,
+        name: data.data.name,
+        email: data.data.email,
         token: data.token,
       });
       router.push("/dashboard");
     },
     onError: (error: any) => {
-      toast.error(error.response?.data?.error || "Mock login failed");
+      toast.error(error.response?.data?.error || "Failed to login");
     },
   });
 
