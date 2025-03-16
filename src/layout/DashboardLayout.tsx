@@ -8,7 +8,6 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -37,9 +36,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem>
-                  <BreadcrumbLink href="/">Home</BreadcrumbLink>
-                </BreadcrumbItem>
                 {pathSegments.map((segment, index) => {
                   const href = `/${pathSegments.slice(0, index + 1).join("/")}`;
                   const formattedSegment =
@@ -48,7 +44,6 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
 
                   return (
                     <div key={href} className="flex items-center">
-                      <BreadcrumbSeparator />
                       <BreadcrumbItem>
                         {index === pathSegments.length - 1 ? (
                           <BreadcrumbPage>{formattedSegment}</BreadcrumbPage>
