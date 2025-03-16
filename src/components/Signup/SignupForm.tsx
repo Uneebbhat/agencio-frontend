@@ -32,7 +32,7 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (user) {
-      router.replace("/launchpad");
+      router.replace("/company-setup/phone-number");
     }
   }, [user, router]);
 

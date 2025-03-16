@@ -11,7 +11,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Agencio",
-  description: "Streamline agency operations with ease.",
+  description: "Streamline your agency operations with ease.",
 };
 
 export default function RootLayout({

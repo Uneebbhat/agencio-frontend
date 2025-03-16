@@ -80,7 +80,7 @@ const useSignup = () => {
         profilePic: data.data.profilePic,
         token: data.token,
       });
-      router.push("/launchpad");
+      router.push("/company-setup");
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.error || "Failed to create account");
