@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface Agency {
+  userId: string;
   id: string;
   agencyLogo?: File | null;
   agencyName: string;

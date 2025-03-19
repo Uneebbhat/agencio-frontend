@@ -80,7 +80,7 @@ const useSignup = () => {
         profilePic: data.data.profilePic,
         token: data.token,
       });
-      router.push("/company-setup");
+      router.push("/agency-setup");
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.error || "Failed to create account");

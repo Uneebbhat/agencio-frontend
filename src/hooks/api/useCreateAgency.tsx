@@ -2,7 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import React from "react";
 import useFormHandler from "../useFormHandler";
-import useCompanyStore from "@/store/useAgencyStore";
+import useAgencyStore from "@/store/useAgencyStore";
+import axios from "axios";
+import useUserStore from "@/store/useUserStore";
 
 interface CreateCompanyFormData {
   agencyLogo?: File | null;
@@ -12,6 +14,7 @@ interface CreateCompanyFormData {
   agencyPhone: string;
   agencySize: number;
   industry: string;
+  userId: string;
 }
 
 const useCreateAgency = () => {
@@ -25,9 +28,11 @@ const useCreateAgency = () => {
       agencyPhone: "",
       agencySize: 0,
       industry: "",
+      userId: "",
     });
 
-  const { createAgency } = useCompanyStore();
+  const { createAgency } = useAgencyStore();
+  const { user } = useUserStore();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -41,29 +46,45 @@ const useCreateAgency = () => {
   const mutation = useMutation({
     mutationKey: ["createAgency"],
     mutationFn: async () => {
-      const fakeData = {
-        industry: formData.industry,
-        agencyPhone: formData.agencyPhone,
-        agencySize: formData.agencySize,
-        agencyName: formData.agencyName,
-        agencyWebsite: formData.agencyWebsite,
-        agencyEmail: formData.agencyEmail,
-        agencyLogo: formData.agencyLogo,
-      };
-      return fakeData;
+      if (!user?.id) {
+        throw new Error("User ID is missing.");
+      }
+
+      const agencyFormData = new FormData();
+      agencyFormData.append("agencyLogo", formData.agencyLogo as File);
+      agencyFormData.append("agencyName", formData.agencyName);
+      agencyFormData.append("agencyEmail", formData.agencyEmail);
+      agencyFormData.append("agencyWebsite", formData.agencyWebsite || "");
+      agencyFormData.append("agencyPhone", formData.agencyPhone);
+      agencyFormData.append("agencySize", formData.agencySize.toString());
+      agencyFormData.append("industry", formData.industry);
+      agencyFormData.append("userId", user.id);
+
+      const { data } = await axios.post(
+        "/api/v1/create-agency",
+        agencyFormData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      return data;
     },
     onSuccess: (data) => {
       console.log("Agency created successfully:", data);
       createAgency({
-        id: "1",
-        agencyName: formData.agencyName,
-        agencyEmail: formData.agencyEmail,
-        agencyWebsite: formData.agencyWebsite,
-        agencyPhone: formData.agencyPhone,
-        agencySize: formData.agencySize,
-        agencyLogo: formData.agencyLogo,
-        industry: formData.industry,
-        token: "token",
+        userId: user?.id as string,
+        id: data.data._id,
+        agencyName: data.data.agencyName,
+        agencyEmail: data.data.agencyEmail,
+        agencyWebsite: data.data.agencyWebsite,
+        agencyPhone: data.data.agencyPhone,
+        agencySize: data.data.agencySize,
+        agencyLogo: data.data.agencyLogo,
+        industry: data.data.industry,
+        token: data.token,
       });
       router.push("/launchpad");
     },

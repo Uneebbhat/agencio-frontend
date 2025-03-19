@@ -8,6 +8,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useCreateAgency from "@/hooks/api/useCreateAgency";
+import { Metadata } from "next";
+
+export const metaData: Metadata = {
+  title: "Agency Setup | Agencio",
+};
+
 const AgencySetupForm = () => {
   const {
     formData,
@@ -111,7 +117,7 @@ const AgencySetupForm = () => {
                   {loading ? (
                     <>
                       <Spinner />
-                      Send email
+                      Finish
                     </>
                   ) : (
                     "Finish"
