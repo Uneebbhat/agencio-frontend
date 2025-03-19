@@ -32,7 +32,7 @@ const SignupForm = () => {
 
   useEffect(() => {
     if (user) {
-      router.replace("/company-setup/phone-number");
+      router.replace("/agency-setup");
     }
   }, [user, router]);
 
