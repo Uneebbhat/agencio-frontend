@@ -6,7 +6,6 @@ import useFormHandler from "@/hooks/useFormHandler";
 import { useRouter } from "next/navigation";
 import useUserStore from "@/store/useUserStore";
 import axios from "axios";
-import { useMutation } from "@tanstack/react-query";
 
 interface SignupFormDataProps {
   name: string;
@@ -25,6 +24,7 @@ const useSignup = () => {
       profilePic: null,
     });
   const { signup } = useUserStore();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
@@ -59,9 +59,11 @@ const useSignup = () => {
     }
   };
 
-  const mutation = useMutation({
-    mutationKey: ["signup"],
-    mutationFn: async () => {
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
       const userFormData = new FormData();
       userFormData.append("name", formData.name);
       userFormData.append("email", formData.email);
@@ -73,12 +75,7 @@ const useSignup = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      return data;
-    },
-    onSuccess: (data: any) => {
-      console.log(data);
 
-      toast.success(data.message);
       signup({
         id: data.data._id,
         name: data.data.name,
@@ -86,21 +83,20 @@ const useSignup = () => {
         profilePic: data.data.profilePic,
         token: data.token,
       });
-      router.push("/agency-setup");
-    },
-    onError: (error: any) => {
-      toast.error(error.response?.data?.error || "Failed to create account");
-    },
-  });
 
-  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutation.mutate();
+      toast.success(data.message);
+
+      router.push("/agency-setup");
+    } catch (error: any) {
+      toast.error(error.response?.data?.error || "Failed to create account");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
     formData,
-    loading: mutation.isPending,
+    loading,
     handleOnChange,
     handleFileChange,
     handleOnSubmit,
