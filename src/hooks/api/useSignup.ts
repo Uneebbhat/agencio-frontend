@@ -62,10 +62,16 @@ const useSignup = () => {
   const mutation = useMutation({
     mutationKey: ["signup"],
     mutationFn: async () => {
-      const { data } = await axios.post("/api/v1/signup", {
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
+      const userFormData = new FormData();
+      userFormData.append("name", formData.name);
+      userFormData.append("email", formData.email);
+      userFormData.append("password", formData.password);
+      userFormData.append("profilePic", formData.profilePic);
+
+      const { data } = await axios.post("/api/v1/signup", userFormData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       });
       return data;
     },

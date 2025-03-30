@@ -27,7 +27,13 @@ import useUserStore from "@/store/useUserStore";
 const SignupForm = () => {
   const router = useRouter();
   const { showPassword, handleTogglePassword } = useTogglePassword();
-  const { formData, loading, handleOnChange, handleOnSubmit } = useSignup();
+  const {
+    formData,
+    loading,
+    handleOnChange,
+    handleOnSubmit,
+    handleFileChange,
+  } = useSignup();
   const user = useUserStore((state) => state.getUser());
 
   useEffect(() => {
@@ -49,6 +55,15 @@ const SignupForm = () => {
         <CardContent>
           <form onSubmit={handleOnSubmit}>
             <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="profilePic">Profile Picture</Label>
+                <Input
+                  id="profilePic"
+                  name="profilePic"
+                  type="file"
+                  onChange={handleFileChange}
+                />
+              </div>
               <div className="grid gap-2">
                 <Label htmlFor="name">Name</Label>
                 <Input

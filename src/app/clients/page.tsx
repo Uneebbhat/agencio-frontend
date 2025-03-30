@@ -1,9 +1,8 @@
 "use client";
 import { useState } from "react";
 import ClientsTable from "@/components/Clients/ClientsTable";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Search } from "lucide-react";
+import CreateClient from "@/components/Clients/CreateClient";
 
 const Page = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -23,14 +22,11 @@ const Page = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-[250px]"
             />
-            <Button>
-              <Plus />
-              New Client
-            </Button>
+            <CreateClient />
           </div>
         </div>
       </section>
-      <ClientsTable />
+      <ClientsTable searchQuery={searchQuery} />
     </>
   );
 };

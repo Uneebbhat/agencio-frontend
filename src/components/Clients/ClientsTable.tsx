@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -14,45 +14,44 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import { EllipsisVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
+import useGetAllClients from "@/hooks/api/useGetAllClients";
+import ClientsTableSkeleton from "./ClientsTableSkeleton";
+import ClientsTableError from "./ClientsTableError";
+import EditClient from "./EditClient";
+import useDeleteClient from "@/hooks/api/useDeleteClient";
+import useClientStore from "@/store/useClientStore";
 
-type ClientStatus = "Active" | "Inactive";
+const formatDate = (dateString: any) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(date);
+};
 
-interface Clients {
-  id: string;
-  company: string;
-  email: string;
-  dateJoined: string;
-  status: ClientStatus;
-}
+const ClientsTable = ({ searchQuery }: any) => {
+  const { data: clients, isLoading, isError } = useGetAllClients();
+  const [filteredClients, setFilteredClients] = useState([]);
+  const [selectedClient, setSelectedClient] = useState(null);
+  const [isEditOpen, setIsEditOpen] = useState(false);
+  const { handleOnSubmit } = useDeleteClient();
+  const client = useClientStore((state) => state.clients);
 
-const ClientsTable = () => {
-  const clients: Clients[] = [
-    {
-      id: "1",
-      company: "MicroSoft",
-      email: "microsoft@gmail.com",
-      dateJoined: "25 Feb 2025",
-      status: "Active",
-    },
-    {
-      id: "2",
-      company: "Amazon",
-      email: "amazon@gmail.com",
-      dateJoined: "25 Mar 2025",
-      status: "Active",
-    },
-    {
-      id: "3",
-      company: "Facebook",
-      email: "facebook@gmail.com",
-      dateJoined: "2 Jan 2025",
-      status: "Inactive",
-    },
-  ];
+  useEffect(() => {
+    if (clients) {
+      setFilteredClients(
+        clients.filter((client: any) =>
+          client.clientName.toLowerCase().includes(searchQuery.toLowerCase())
+        )
+      );
+    }
+  }, [clients, searchQuery]);
+
+  if (isLoading) return <ClientsTableSkeleton />;
+  if (isError) return <ClientsTableError />;
 
   return (
     <section className="p-[20px]">
@@ -68,17 +67,11 @@ const ClientsTable = () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {clients.map((client) => (
+          {filteredClients.map((client: any) => (
             <TableRow key={client.id}>
-              <TableCell className="font-medium flex items-center gap-[5px]">
-                <Avatar>
-                  <AvatarImage src="https://github.com/shadcn.png" />
-                  <AvatarFallback>CN</AvatarFallback>
-                </Avatar>
-                {client.company}
-              </TableCell>
-              <TableCell>{client.email}</TableCell>
-              <TableCell>{client.dateJoined}</TableCell>
+              <TableCell className="font-medium">{client.clientName}</TableCell>
+              <TableCell>{client.clientEmail}</TableCell>
+              <TableCell>{formatDate(client.createdAt)}</TableCell>
               <TableCell>
                 <span
                   className={cn(
@@ -97,8 +90,17 @@ const ClientsTable = () => {
                     <EllipsisVertical className="cursor-pointer" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end">
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
-                    <DropdownMenuItem>Delete</DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        setSelectedClient(client);
+                        setIsEditOpen(true);
+                      }}
+                    >
+                      Edit
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleOnSubmit(client.id)}>
+                      Delete
+                    </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               </TableCell>
@@ -106,6 +108,15 @@ const ClientsTable = () => {
           ))}
         </TableBody>
       </Table>
+
+      {/* Edit Client Modal */}
+      {isEditOpen && (
+        <EditClient
+          client={selectedClient}
+          isOpen={isEditOpen}
+          onClose={() => setIsEditOpen(false)}
+        />
+      )}
     </section>
   );
 };
