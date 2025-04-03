@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import useUserStore from "@/store/useUserStore";
 import axios from "axios";
 import { useState } from "react";
+import useAgencyStore from "@/store/useAgencyStore";
 
 interface LoginFormDataProps {
   email: string;
@@ -20,6 +21,8 @@ const useLogin = () => {
   });
   const { login } = useUserStore();
   const [loading, setLoading] = useState<boolean>(false);
+  const { user } = useUserStore();
+  const { createAgency } = useAgencyStore();
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -30,12 +33,26 @@ const useLogin = () => {
         email: formData.email,
         password: formData.password,
       });
+      console.log(data);
 
       login({
-        id: data.data._id,
-        name: data.data.name,
-        email: data.data.email,
-        profilePic: data.data.profilePic,
+        id: data.data.userDTO._id,
+        name: data.data.userDTO.name,
+        email: data.data.userDTO.email,
+        profilePic: data.data.userDTO.profilePic,
+        token: data.token,
+      });
+
+      createAgency({
+        userId: user?.id as string,
+        id: data.data.agency._id,
+        agencyName: data.data.agency.agencyName,
+        agencyEmail: data.data.agency.agencyEmail,
+        agencyWebsite: data.data.agency.agencyWebsite,
+        agencyPhone: data.data.agency.agencyPhone,
+        agencySize: data.data.agency.agencySize,
+        agencyLogo: data.data.agency.agencyLogo,
+        industry: data.data.agency.industry,
         token: data.token,
       });
 
