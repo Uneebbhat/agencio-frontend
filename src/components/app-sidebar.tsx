@@ -3,16 +3,14 @@
 import * as React from "react";
 import {
   Archive,
-  AudioWaveform,
   ClipboardList,
-  Command,
   Folder,
   Frame,
-  GalleryVerticalEnd,
   LayoutDashboard,
   SquareKanban,
   Target,
   Users,
+  MessageCircle,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -29,7 +27,11 @@ import {
 // This is sample data.
 const data = {
   navMain: [
-    { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: LayoutDashboard,
+    },
     { title: "Clients", url: "/clients", icon: Users },
     {
       title: "Projects",
@@ -52,8 +54,27 @@ const data = {
       ],
     },
     { title: "Team", url: "/team", icon: Users },
-    { title: "Goals", url: "/goals", icon: Target },
-    { title: "Bucket", url: "/bucket", icon: Archive },
+    {
+      title: "Goals",
+      url: "/goals",
+      icon: Target,
+      badge: "Coming Soon",
+      disabled: true,
+    },
+    {
+      title: "Chat",
+      url: "/chat",
+      icon: MessageCircle,
+      badge: "Coming Soon",
+      disabled: true,
+    },
+    {
+      title: "Bucket",
+      url: "/bucket",
+      icon: Archive,
+      badge: "Coming Soon",
+      disabled: true,
+    },
     { title: "Launchpad", url: "/launchpad", icon: ClipboardList },
   ],
 };

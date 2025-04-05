@@ -18,6 +18,7 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
 
 export function NavMain({
   items,
@@ -31,6 +32,8 @@ export function NavMain({
       title: string;
       url: string;
     }[];
+    badge?: string;
+    disabled?: boolean;
   }[];
 }) {
   return (
@@ -50,23 +53,44 @@ export function NavMain({
                   <SidebarMenuButton
                     tooltip={item.title}
                     className="flex items-center justify-between"
+                    disabled={item.disabled}
                   >
-                    <Link href={item.url} className="flex items-center gap-2">
-                      {item.icon && <item.icon size={16} />}
-                      <span>{item.title}</span>
+                    <Link
+                      href={item.url}
+                      className={`flex items-center justify-between w-full ${
+                        item.disabled ? "pointer-events-none opacity-50" : ""
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        {item.icon && <item.icon size={20} />}
+                        <span>{item.title}</span>
+                      </div>
+                      {item.badge && <Badge>{item.badge}</Badge>}
                     </Link>
                     <div>
                       <ChevronRight
                         className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90"
-                        size={16}
+                        size={14}
                       />
                     </div>
                   </SidebarMenuButton>
                 ) : (
-                  <Link href={item.url} className="w-full">
-                    <SidebarMenuButton tooltip={item.title}>
-                      {item.icon && <item.icon />}
-                      <span>{item.title}</span>
+                  <Link
+                    href={item.url}
+                    className={`w-full ${
+                      item.disabled ? "pointer-events-none opacity-50" : ""
+                    }`}
+                  >
+                    <SidebarMenuButton
+                      tooltip={item.title}
+                      disabled={item.disabled}
+                      className="flex items-center justify-between w-full"
+                    >
+                      <div className="flex items-center gap-2">
+                        {item.icon && <item.icon size={20} />}
+                        <span>{item.title}</span>
+                      </div>
+                      {item.badge && <Badge>{item.badge}</Badge>}
                     </SidebarMenuButton>
                   </Link>
                 )}

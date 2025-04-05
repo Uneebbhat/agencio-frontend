@@ -21,7 +21,15 @@ import ClientsTableSkeleton from "./ClientsTableSkeleton";
 import ClientsTableError from "./ClientsTableError";
 import EditClient from "./EditClient";
 import useDeleteClient from "@/hooks/api/useDeleteClient";
-import useClientStore from "@/store/useClientStore";
+import useClientStore, { ClientStatus } from "@/store/useClientStore";
+
+interface ClientTableProps {
+  _id: string;
+  clientName: string;
+  clientEmail: string;
+  createdAt: string;
+  status: ClientStatus;
+}
 
 const formatDate = (dateString: any) => {
   const date = new Date(dateString);
@@ -33,22 +41,22 @@ const formatDate = (dateString: any) => {
 };
 
 const ClientsTable = ({ searchQuery }: any) => {
-  const { data: clients, isLoading, isError } = useGetAllClients();
+  const { data: clientsData, isLoading, isError } = useGetAllClients();
   const [filteredClients, setFilteredClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const { handleOnSubmit } = useDeleteClient();
-  const client = useClientStore((state) => state.clients);
-
+  // const { clients } = useClientStore();
   useEffect(() => {
-    if (clients) {
+    if (clientsData) {
+      console.log("Client Data:", clientsData);
       setFilteredClients(
-        clients.filter((client: any) =>
+        clientsData.filter((client: any) =>
           client.clientName.toLowerCase().includes(searchQuery.toLowerCase())
         )
       );
     }
-  }, [clients, searchQuery]);
+  }, [clientsData, searchQuery]);
 
   if (isLoading) return <ClientsTableSkeleton />;
   if (isError) return <ClientsTableError />;
@@ -67,52 +75,64 @@ const ClientsTable = ({ searchQuery }: any) => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {filteredClients.map((client: any) => (
-            <TableRow key={client.id}>
-              <TableCell className="font-medium">{client.clientName}</TableCell>
-              <TableCell>{client.clientEmail}</TableCell>
-              <TableCell>{formatDate(client.createdAt)}</TableCell>
-              <TableCell>
-                <span
-                  className={cn(
-                    "px-3 py-1 rounded-full text-sm font-medium",
-                    client.status === "Active"
-                      ? "bg-green-200 text-green-800 border border-green-600"
-                      : "bg-red-200 text-red-800 border border-red-600"
-                  )}
-                >
-                  {client.status}
-                </span>
-              </TableCell>
-              <TableCell className="text-right">
-                <DropdownMenu>
-                  <DropdownMenuTrigger>
-                    <EllipsisVertical className="cursor-pointer" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      onClick={() => {
-                        setSelectedClient(client);
-                        setIsEditOpen(true);
-                      }}
-                    >
-                      Edit
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => handleOnSubmit(client.id)}>
-                      Delete
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+          {filteredClients.length > 0 ? (
+            filteredClients.map((client: ClientTableProps) => (
+              <TableRow key={client._id}>
+                <TableCell className="font-medium">
+                  {client.clientName}
+                </TableCell>
+                <TableCell>{client.clientEmail}</TableCell>
+                <TableCell>{formatDate(client.createdAt)}</TableCell>
+                <TableCell>
+                  <span
+                    className={cn(
+                      "px-3 py-1 rounded-full text-sm font-medium",
+                      client.status === "Active"
+                        ? "bg-green-200 text-green-800 border border-green-600"
+                        : "bg-red-200 text-red-800 border border-red-600"
+                    )}
+                  >
+                    {client.status}
+                  </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger>
+                      <EllipsisVertical className="cursor-pointer" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem
+                        onClick={() => {
+                          setSelectedClient(client as any);
+                          setIsEditOpen(true);
+                        }}
+                      >
+                        Edit
+                      </DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => handleOnSubmit(client._id as any)}
+                      >
+                        Delete
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                </TableCell>
+              </TableRow>
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5} className="text-center py-4">
+                <p className="text-gray-500">No clients found</p>
               </TableCell>
             </TableRow>
-          ))}
+          )}
         </TableBody>
       </Table>
 
       {/* Edit Client Modal */}
       {isEditOpen && (
         <EditClient
-          client={selectedClient}
+          client={selectedClient as any}
           isOpen={isEditOpen}
           onClose={() => setIsEditOpen(false)}
         />

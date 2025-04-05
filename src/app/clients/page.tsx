@@ -10,9 +10,9 @@ const Page = () => {
   return (
     <>
       <section className="p-[20px]">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-semibold">Clients</h1>
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row justify-between md:items-center mb-4">
+          <h1 className="text-2xl font-semibold mb-4 md:mb-0">Clients</h1>
+          <div className="flex flex-col md:flex-row md:items-center justify-end md:gap-4 gap-2">
             <Input
               type="text"
               name="searchClient"
@@ -20,7 +20,7 @@ const Page = () => {
               placeholder="Search Client"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-[250px]"
+              className="md:w-[250px]"
             />
             <CreateClient />
           </div>

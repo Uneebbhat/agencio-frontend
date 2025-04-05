@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-enum ClientStatus {
+export enum ClientStatus {
   ACTIVE = "Active",
   INACTIVE = "Inactive",
 }
@@ -19,26 +19,28 @@ interface ClientsStore {
   addClient: (client: Client) => void;
   removeClient: (clientId: string) => void;
   updateClient: (clientId: string, updatedClient: Partial<Client>) => void;
+  getClients: () => Client[] | null;
 }
 
 const useClientStore = create<ClientsStore>()(
   persist(
     (set, get) => ({
       clients: [],
+
+      getClients: () => get().clients,
+
       addClient: (clientData) =>
         set((state) => ({ clients: [...state.clients, clientData] })),
+
       removeClient: (clientId) =>
         set((state) => ({
-          clients: state.clients.filter(
-            (client) => client.agencyId !== clientId
-          ),
+          clients: state.clients.filter((client) => client.id !== clientId),
         })),
+
       updateClient: (clientId, updatedClient) =>
         set((state) => ({
           clients: state.clients.map((client) =>
-            client.agencyId === clientId
-              ? { ...client, ...updatedClient }
-              : client
+            client.id === clientId ? { ...client, ...updatedClient } : client
           ),
         })),
     }),

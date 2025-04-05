@@ -1,33 +1,39 @@
-import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 import axios from "axios";
 import { toast } from "sonner";
 import useUserStore from "@/store/useUserStore";
 
 const useLogout = () => {
   const { logout } = useUserStore();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isError, setIsError] = useState<boolean>(false);
+  const [isSuccess, setIsSuccess] = useState<boolean>(false);
 
-  const mutation = useMutation({
-    mutationKey: ["logout"],
-    mutationFn: async () => {
+  const handleLogout = async () => {
+    setIsLoading(true);
+    setIsError(false);
+    setIsSuccess(false);
+
+    try {
       const { data } = await axios.post("/api/v1/logout");
-      return data;
-    },
-    onSuccess: (data) => {
       toast.success(data.message || "Logout successful");
       logout();
-    },
-    onError: (error: any) => {
+      setIsSuccess(true);
+    } catch (error: any) {
       toast.error(
         error.response?.data?.error || "An error occurred during logout"
       );
-    },
-  });
+      setIsError(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return {
-    logout: mutation.mutate,
-    isLoading: mutation.isPending,
-    isSuccess: mutation.isSuccess,
-    isError: mutation.isError,
+    logout: handleLogout,
+    isLoading,
+    isSuccess,
+    isError,
   };
 };
 

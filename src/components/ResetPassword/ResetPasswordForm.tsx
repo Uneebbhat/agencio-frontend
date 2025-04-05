@@ -24,8 +24,17 @@ const ResetPasswordForm = () => {
   const router = useRouter();
   const token = useParams();
   const { showPassword, handleTogglePassword } = useTogglePassword();
-  const { formData, loading, success, handleOnChange, handleOnSubmit } =
+  const { formData, loading, handleOnChange, handleOnSubmit } =
     useResetPassword(token);
+  const user = useUserStore((state) => state.getUser());
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/dashboard");
+    }
+  }, [user, router]);
+
+  const success = true;
 
   if (success) {
     return (
@@ -34,14 +43,6 @@ const ResetPasswordForm = () => {
       </section>
     );
   }
-
-  const user = useUserStore((state) => state.getUser());
-
-  useEffect(() => {
-    if (user) {
-      router.replace("/dashboard");
-    }
-  }, [user, router]);
 
   return (
     <>

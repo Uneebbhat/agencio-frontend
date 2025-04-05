@@ -17,14 +17,14 @@ const ResetPasswordSuccess = () => {
   const confettiRef = useRef<ConfettiRef>(null);
   return (
     <>
-      <Card className="text-center max-w-md mx-auto">
-        <Confetti
-          ref={confettiRef}
-          className="absolute left-0 top-[20px] z-0 size-full"
-          // onMouseEnter={() => {
-          //   confettiRef.current?.fire({});
-          // }}
-        />
+      <Confetti
+        ref={confettiRef}
+        className="absolute left-0 top-[20px] z-0 size-full"
+        // onMouseEnter={() => {
+        //   confettiRef.current?.fire({});
+        // }}
+      />
+      <Card className="text-center max-w-md mx-auto relative z-40">
         <CardHeader className="flex flex-col items-center space-y-4">
           <div className="bg-green-100 p-3 rounded-full">
             <KeyRound size={48} className="text-green-600" />

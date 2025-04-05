@@ -29,18 +29,19 @@ import {
 import useUserStore from "@/store/useUserStore";
 import { useRouter } from "next/navigation";
 import useAgencyStore from "@/store/useAgencyStore";
+import useClientStore from "@/store/useClientStore";
 
 export function NavUser() {
   const router = useRouter();
   const { isMobile } = useSidebar();
   const { user } = useUserStore();
-  const { agency } = useAgencyStore();
 
   const handleLogout = () => {
     console.log("Logging out...");
     useUserStore.getState().logout();
     useUserStore.persist.clearStorage();
     useAgencyStore.persist.clearStorage();
+    useClientStore.persist.clearStorage();
     router.push("/login");
   };
   // const firstInitialName = user?.name.split(" ")[0].split("")[0];

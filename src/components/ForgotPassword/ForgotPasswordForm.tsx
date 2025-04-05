@@ -22,6 +22,13 @@ const ForgotPasswordForm = () => {
   const router = useRouter();
   const { formData, loading, success, handleOnChange, handleOnSubmit } =
     useForgotPassword();
+  const user = useUserStore((state) => state.getUser());
+
+  useEffect(() => {
+    if (user) {
+      router.replace("/dashboard");
+    }
+  }, [user, router]);
 
   if (success) {
     return (
@@ -30,14 +37,6 @@ const ForgotPasswordForm = () => {
       </>
     );
   }
-
-  const user = useUserStore((state) => state.getUser());
-
-  useEffect(() => {
-    if (user) {
-      router.replace("/dashboard");
-    }
-  }, [user, router]);
 
   return (
     <>
