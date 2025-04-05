@@ -1,89 +1,105 @@
-import { Button } from "@/components/ui/button";
+// components/EditClient.tsx
+
+import React, { useEffect } from "react";
 import {
   Dialog,
   DialogContent,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import useEditClient from "@/hooks/api/useEditClient";
+import { ClientStatus } from "@/store/useClientStore";
 
-const EditClient = ({ client, isOpen, onClose }: any) => {
-  const [status, setStatus] = useState(client?.status || "Active");
-  const [clientName, setClientName] = useState(client?.clientName || "");
-  const [clientEmail, setClientEmail] = useState(client?.clientEmail || "");
+interface EditClientProps {
+  client: {
+    _id: string;
+    clientName: string;
+    clientEmail: string;
+    status: ClientStatus;
+  };
+  isOpen: boolean;
+  onClose: () => void;
+}
 
-  // Update state when client data changes
+const EditClient: React.FC<EditClientProps> = ({ client, isOpen, onClose }) => {
+  const { formData, handleOnChange, setFormData, handleOnEditSubmit, loading } =
+    useEditClient();
+
   useEffect(() => {
-    setClientName(client?.clientName || "");
-    setClientEmail(client?.clientEmail || "");
-    setStatus(client?.status || "Active");
-  }, [client]);
+    if (client) {
+      setFormData({
+        clientId: client._id,
+        clientName: client.clientName,
+        clientEmail: client.clientEmail,
+        status: client.status,
+      });
+    }
+  }, [client, setFormData]);
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>Edit Client</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid grid-cols-4 items-center">
-            <Label htmlFor="clientName">Client Name</Label>
+        <form onSubmit={handleOnEditSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="clientName">Company Name</Label>
             <Input
               id="clientName"
-              value={clientName}
-              onChange={(e) => setClientName(e.target.value)}
-              placeholder="John Doe"
-              className="col-span-3"
+              name="clientName"
+              value={formData.clientName}
+              onChange={handleOnChange}
+              required
             />
           </div>
-          <div className="grid grid-cols-4 items-center">
-            <Label htmlFor="clientEmail">Client Email</Label>
+          <div>
+            <Label htmlFor="clientEmail">Email</Label>
             <Input
               id="clientEmail"
-              value={clientEmail}
-              onChange={(e) => setClientEmail(e.target.value)}
-              placeholder="johndoe@example.com"
-              className="col-span-3"
+              name="clientEmail"
+              type="email"
+              value={formData.clientEmail}
+              onChange={handleOnChange}
+              required
             />
           </div>
-          <div className="grid grid-cols-4 items-center gap-4">
+          <div>
             <Label htmlFor="status">Status</Label>
-            <Input id="status" value={status} readOnly className="col-span-3" />
-
-            {/* Status selection */}
-            <div className="col-span-4 flex gap-2">
-              <span
-                className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium cursor-pointer transition",
-                  status === "Active"
-                    ? "bg-green-200 text-green-800 border border-green-600"
-                    : "bg-gray-200 text-gray-800"
-                )}
-                onClick={() => setStatus("Active")}
-              >
-                Active
-              </span>
-              <span
-                className={cn(
-                  "px-4 py-2 rounded-full text-sm font-medium cursor-pointer transition",
-                  status === "Inactive"
-                    ? "bg-red-200 text-red-800 border border-red-600"
-                    : "bg-gray-200 text-gray-800"
-                )}
-                onClick={() => setStatus("Inactive")}
-              >
-                Inactive
-              </span>
-            </div>
+            <Select
+              value={formData.status}
+              onValueChange={(value: any) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  status: value as ClientStatus,
+                }))
+              }
+            >
+              <SelectTrigger id="status">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value={ClientStatus.ACTIVE}>Active</SelectItem>
+                <SelectItem value={ClientStatus.INACTIVE}>Inactive</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-        </div>
-        <DialogFooter>
-          <Button type="submit">Save Changes</Button>
-        </DialogFooter>
+          <div className="flex justify-end">
+            <Button type="submit" disabled={loading}>
+              {loading ? "Saving..." : "Save Changes"}
+            </Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   );

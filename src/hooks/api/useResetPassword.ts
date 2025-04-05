@@ -15,42 +15,39 @@ const useResetPassword = (token: any) => {
     password: "",
   });
   const [success, setSuccess] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const resetTokenString = JSON.stringify(token.token);
   const resetToken = JSON.parse(resetTokenString);
   // console.log(resetToken);
 
-  const mutation = useMutation({
-    mutationKey: ["resetPassword"],
-    mutationFn: async () => {
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
       const { data } = await axios.post(
         `/api/v1/reset-password/${resetToken}`,
         {
           password: formData.password,
         }
       );
-      return data;
-    },
-    onSuccess: (data) => {
+
       toast.success(data.message);
+
       setSuccess(true);
-    },
-    onError: (error: any) => {
+    } catch (error: any) {
       toast.error(
         error.response?.data?.error || "An error occurred during password reset"
       );
-      setSuccess(false);
-    },
-  });
-
-  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutation.mutate();
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
     formData,
-    loading: mutation.isPending,
+    loading,
     success,
     handleOnChange,
     handleOnSubmit,

@@ -7,6 +7,7 @@ import useUserStore from "@/store/useUserStore";
 import axios from "axios";
 import { useState } from "react";
 import useAgencyStore from "@/store/useAgencyStore";
+import useClientStore from "@/store/useClientStore";
 
 interface LoginFormDataProps {
   email: string;
@@ -23,6 +24,7 @@ const useLogin = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { user } = useUserStore();
   const { createAgency } = useAgencyStore();
+  const { addClient } = useClientStore();
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -54,6 +56,14 @@ const useLogin = () => {
         agencyLogo: data.data.agency.agencyLogo,
         industry: data.data.agency.industry,
         token: data.token,
+      });
+
+      addClient({
+        agencyId: data.data.clients._id,
+        clientName: data.data.clients.clientName,
+        clientEmail: data.data.clients.clientEmail,
+        status: data.data.clients.status,
+        id: data.data.clients._id,
       });
 
       toast.success(data.message);

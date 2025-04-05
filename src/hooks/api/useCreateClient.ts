@@ -3,6 +3,8 @@ import useFormHandler from "../useFormHandler";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAgencyStore from "@/store/useAgencyStore";
 import useClientStore from "@/store/useClientStore";
+import { useState } from "react";
+import { toast } from "sonner";
 
 interface CreateClientProps {
   agencyId: string;
@@ -22,10 +24,13 @@ const useCreateClient = () => {
   const { agency } = useAgencyStore();
   const queryClient = useQueryClient();
   const client = useClientStore((state) => state.addClient);
+  const [loading, setloading] = useState<boolean>(false);
 
-  const mutation = useMutation({
-    mutationKey: ["createClient"],
-    mutationFn: async () => {
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setloading(true);
+
+    try {
       const { data } = await axios.post("/api/v1/create-client", {
         agencyId: agency?.id,
         clientName: formData.clientName,
@@ -33,11 +38,7 @@ const useCreateClient = () => {
         status: formData.status,
       });
       console.log(data);
-      return data;
-    },
-    onSuccess: (data) => {
-      console.log("Client created successfully:", data);
-      queryClient.invalidateQueries({ queryKey: ["clients"] });
+
       client({
         agencyId: agency?.id as string,
         clientName: formData.clientName,
@@ -45,20 +46,23 @@ const useCreateClient = () => {
         status: formData.status as any,
         id: data.data._id,
       });
-    },
-    onError: (error) => {
-      console.error("Error creating client:", error);
-    },
-  });
+      toast.success(data.message);
+      window.location.reload();
+    } catch (error: any) {
+      console.log(error);
 
-  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    mutation.mutate();
+      toast.error(
+        error.response?.data?.error ||
+          "An error occurred while creating the client."
+      );
+    } finally {
+      setloading(false);
+    }
   };
 
   return {
     formData,
-    loading: mutation.isPending,
+    loading,
     handleOnChange,
     handleOnSubmit,
     setFormData,
