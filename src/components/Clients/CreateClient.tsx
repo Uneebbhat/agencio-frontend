@@ -18,6 +18,7 @@ import {
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
 import Spinner from "../Spinner";
+import { Plus } from "lucide-react";
 
 const CreateClient = () => {
   const { formData, handleOnChange, handleOnSubmit, setFormData, loading } =
@@ -26,7 +27,10 @@ const CreateClient = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Add Client</Button>
+        <Button>
+          <Plus />
+          Add Client
+        </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
