@@ -1,6 +1,5 @@
 import axios from "axios";
 import useFormHandler from "../useFormHandler";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import useAgencyStore from "@/store/useAgencyStore";
 import useClientStore from "@/store/useClientStore";
 import { useState } from "react";
@@ -22,7 +21,6 @@ const useCreateClient = () => {
       status: "",
     });
   const { agency } = useAgencyStore();
-  const queryClient = useQueryClient();
   const client = useClientStore((state) => state.addClient);
   const [loading, setloading] = useState<boolean>(false);
 

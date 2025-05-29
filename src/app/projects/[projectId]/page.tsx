@@ -7,7 +7,7 @@ const page = () => {
     <>
       <section className="p-[20px]">
         <div className="flex flex-col md:flex-row justify-between mb-4 md:mb-0">
-          <h1 className="text-2xl font-semibold mb-4">Projects</h1>
+          <h1 className="text-2xl font-semibold mb-4">Project ID: 001</h1>
           <CreateProject />
         </div>
         <ProjectsList />
