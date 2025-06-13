@@ -55,16 +55,16 @@ const data = {
     },
     { title: "Team", url: "/team", icon: Users },
     {
-      title: "Goals",
-      url: "/goals",
-      icon: Target,
-      badge: "Coming Soon",
-      disabled: true,
-    },
-    {
       title: "Chat",
       url: "/chat",
       icon: MessageCircle,
+      // badge: "Coming Soon",
+      // disabled: true,
+    },
+    {
+      title: "Goals",
+      url: "/goals",
+      icon: Target,
       badge: "Coming Soon",
       disabled: true,
     },

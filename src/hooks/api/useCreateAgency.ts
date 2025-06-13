@@ -43,44 +43,6 @@ const useCreateAgency = () => {
     }
   };
 
-  // const mutation = useMutation({
-  //   mutationKey: ["createAgency"],
-  //   mutationFn: async () => {
-  //     if (!user?.id) {
-  //       throw new Error("User ID is missing.");
-  //     }
-
-  //     const agencyFormData = new FormData();
-  //     agencyFormData.append("agencyLogo", formData.agencyLogo as File);
-  //     agencyFormData.append("agencyName", formData.agencyName);
-  //     agencyFormData.append("agencyEmail", formData.agencyEmail);
-  //     agencyFormData.append("agencyWebsite", formData.agencyWebsite || "");
-  //     agencyFormData.append("agencyPhone", formData.agencyPhone);
-  //     agencyFormData.append("agencySize", formData.agencySize.toString());
-  //     agencyFormData.append("industry", formData.industry);
-  //     agencyFormData.append("userId", user.id);
-
-  //     const { data } = await axios.post(
-  //       "/api/v1/create-agency",
-  //       agencyFormData,
-  //       {
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //       }
-  //     );
-
-  //     return data;
-  //   },
-  //   onSuccess: (data) => {
-  //     console.log("Agency created successfully:", data);
-  //
-  //   },
-  //   onError: (error) => {
-  //     console.error("Error creating agency:", error);
-  //   },
-  // });
-
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
