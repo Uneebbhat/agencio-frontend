@@ -55,8 +55,8 @@ const data = {
     },
     { title: "Team", url: "/team", icon: Users },
     {
-      title: "Chat",
-      url: "/chat",
+      title: "AI Chat",
+      url: "/ai-chat",
       icon: MessageCircle,
       // badge: "Coming Soon",
       // disabled: true,
