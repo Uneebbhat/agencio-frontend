@@ -1,73 +1,85 @@
-import { toast } from "sonner";
+import { useState, useEffect } from "react";
 import useFormHandler from "../useFormHandler";
-import { useState } from "react";
+import { toast } from "sonner";
 import axios from "axios";
-
-enum ChatFormDataRole {
-  sender = "user",
-  ai = "ai",
-}
-
-interface Message {
-  content: string;
-  role: ChatFormDataRole;
-}
+import useUserStore from "@/store/useUserStore";
 
 interface ChatFormData {
+  senderId: string;
   message: string;
-  sender: ChatFormDataRole;
+}
+
+interface ChatMessage {
+  role: "user" | "ai";
+  content: string;
+  timestamp: string;
 }
 
 const useChat = () => {
   const { formData, setFormData, handleOnChange } =
     useFormHandler<ChatFormData>({
+      senderId: "",
       message: "",
-      sender: ChatFormDataRole.sender,
     });
+
   const [loading, setLoading] = useState<boolean>(false);
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const user = useUserStore();
 
   const handleOnSubmit = async (
-    e: React.FormEvent<HTMLFormElement> | React.ChangeEvent<HTMLInputElement>
-  ) => {
+    e: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     e.preventDefault();
     setLoading(true);
 
-    // Add user message
-    const userMessage: Message = {
-      content: formData.message,
-      role: ChatFormDataRole.sender,
-    };
-    setMessages((prev) => [...prev, userMessage]);
-
     try {
       const { data } = await axios.post("/api/v1/chat", {
+        senderId: user.user?.id,
         message: formData.message,
-        sender: formData.sender,
       });
 
-      // Add AI message
-      const aiMessage: Message = {
-        content: data.message,
-        role: ChatFormDataRole.ai,
-      };
-      setMessages((prev) => [...prev, aiMessage]);
+      const newMessages: ChatMessage[] = data.data.messages;
 
+      setMessages((prev) => [...prev, ...newMessages]);
       setFormData({
         message: "",
-        sender: formData.sender,
+        senderId: user.user?.id ?? "",
       });
     } catch (error: any) {
-      toast.error(
-        error.response?.data?.error ||
-          "An error occurred while sending the message."
-      );
+      console.error(error);
+      toast.error(`Error occurred: ${error.message || "Unknown error"}`);
     } finally {
       setLoading(false);
     }
   };
 
-  return { formData, loading, handleOnChange, handleOnSubmit, messages };
+  const loadChatHistory = async () => {
+    try {
+      const { data } = await axios.get(
+        `/api/v1/chat-history/${user.user?.id}`
+        // {
+        //   params: { senderId: user.user?.id },
+        // }
+      );
+      setMessages(data.data.messages);
+    } catch (error: any) {
+      console.error("Failed to load chat history:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (user.user?.id) {
+      loadChatHistory();
+    }
+  }, [user.user?.id]);
+
+  return {
+    formData,
+    loading,
+    messages,
+    handleOnChange,
+    handleOnSubmit,
+  };
 };
 
 export default useChat;
