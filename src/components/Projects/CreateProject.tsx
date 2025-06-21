@@ -27,7 +27,6 @@ const CreateProject = () => {
   const { formData, handleOnChange, handleOnSubmit, setFormData, loading } =
     useCreateProject();
   const getClients = useClientStore((state) => state.getClients());
-  const { clients } = useClientStore();
 
   return (
     <Dialog>

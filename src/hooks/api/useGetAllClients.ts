@@ -8,12 +8,21 @@ const useGetAllClients = () => {
 
   useEffect(() => {
     const fetchClientsData = async () => {
-      const { data } = await axios.get("/api/v1/get-clients");
-      setClientsData(data.data.allClients);
+      setLoading(true);
+      setError(false);
+      try {
+        const { data } = await axios.get("/api/v1/get-clients");
+        setClientsData(data.data.allClients);
+      } catch (err) {
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
     };
 
     fetchClientsData();
-  }, [clientsData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return { clientsData, loading, error };
 };

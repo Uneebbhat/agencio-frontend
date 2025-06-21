@@ -35,8 +35,8 @@ const ResetPasswordSuccess = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <CardDescription className="text-base leading-relaxed">
-            Your password has been successfully reset. Here's what you can do
-            now:
+            Your password has been successfully reset. Here&apos;s what you can
+            do now:
           </CardDescription>
           <div className="flex flex-col items-start space-y-3 text-left">
             <div className="flex items-center space-x-2">
@@ -49,7 +49,7 @@ const ResetPasswordSuccess = () => {
             </div>
             <div className="flex items-center space-x-2">
               <CheckCircle2 className="text-green-500" size={20} />
-              <span>Keep your password secure and don't share it</span>
+              <span>Keep your password secure and don&apos;t share it</span>
             </div>
           </div>
           <div className="pt-4">

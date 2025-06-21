@@ -22,8 +22,8 @@ const EmailSentSuccess = () => {
         </CardHeader>
         <CardContent className="space-y-4">
           <CardDescription className="text-base leading-relaxed">
-            We've sent a confirmation email to your account. Here's what to do
-            next:
+            We&apos;ve sent a confirmation email to your account. Here&apos;s
+            what to do next:
           </CardDescription>
           <div className="flex flex-col items-start space-y-3 text-left">
             <div className="flex items-center space-x-2">
@@ -40,8 +40,8 @@ const EmailSentSuccess = () => {
             </div>
           </div>
           <p className="text-sm text-gray-500 mt-4">
-            Can't find the email? Check your spam folder or contact support if
-            you need help.
+            Can&apos;t find the email? Check your spam folder or contact support
+            if you need help.
           </p>
         </CardContent>
       </Card>

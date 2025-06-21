@@ -3,7 +3,6 @@
 import { useState } from "react";
 import useFormHandler from "../useFormHandler";
 import { toast } from "sonner";
-import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 
 interface ResetPasswordProps {

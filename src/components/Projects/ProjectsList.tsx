@@ -8,32 +8,32 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Progress } from "@/components/ui/progress";
 import useGetAllProjects from "@/hooks/api/useGetAllProjects";
 
-const projects = [
-  {
-    id: 1,
-    name: "Website Redesign",
-    client: "Acme Corp",
-    status: "In Progress",
-    createdAt: "2025-04-01",
-    progress: 45,
-  },
-  {
-    id: 2,
-    name: "Mobile App Development",
-    client: "TechNova",
-    status: "Completed",
-    createdAt: "2025-03-15",
-    progress: 100,
-  },
-  {
-    id: 3,
-    name: "Marketing Dashboard",
-    client: "BrightMedia",
-    status: "Pending",
-    createdAt: "2025-03-30",
-    progress: 10,
-  },
-];
+// const projects = [
+//   {
+//     id: 1,
+//     name: "Website Redesign",
+//     client: "Acme Corp",
+//     status: "In Progress",
+//     createdAt: "2025-04-01",
+//     progress: 45,
+//   },
+//   {
+//     id: 2,
+//     name: "Mobile App Development",
+//     client: "TechNova",
+//     status: "Completed",
+//     createdAt: "2025-03-15",
+//     progress: 100,
+//   },
+//   {
+//     id: 3,
+//     name: "Marketing Dashboard",
+//     client: "BrightMedia",
+//     status: "Pending",
+//     createdAt: "2025-03-30",
+//     progress: 10,
+//   },
+// ];
 
 const statusColors: Record<string, string> = {
   Pending: "bg-gray-500",
@@ -44,7 +44,7 @@ const statusColors: Record<string, string> = {
 };
 
 const ProjectsList = () => {
-  const { projects, loading } = useGetAllProjects();
+  const { projects } = useGetAllProjects();
   return (
     <div className="pt-8">
       <ScrollArea className="h-[600px] rounded-md border p-4">
