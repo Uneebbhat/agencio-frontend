@@ -28,8 +28,9 @@ export function TeamSwitcher() {
           >
             <Image
               src={
-                getAgencyData?.agencyLogo
-                  ? (getAgencyData.agencyLogo as any)
+                typeof getAgencyData?.agencyLogo === "string" &&
+                getAgencyData.agencyLogo
+                  ? getAgencyData.agencyLogo
                   : open
                   ? "/assets/logo-black.png"
                   : "/assets/logo-black-icon.png"

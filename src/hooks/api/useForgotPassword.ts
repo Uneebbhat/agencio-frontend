@@ -7,6 +7,7 @@ import axios from "axios";
 
 interface ForgotPasswordProps {
   email: string;
+  [key: string]: unknown;
 }
 
 const useForgotPassword = () => {
@@ -28,8 +29,13 @@ const useForgotPassword = () => {
       toast.success(data.message);
 
       setSuccess(true);
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "An error occurred");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "response" in error) {
+        const err = error as { response?: { data?: { error?: string } } };
+        toast.error(err.response?.data?.error || "An error occurred");
+      } else {
+        toast.error("An error occurred");
+      }
     } finally {
       setLoading(false);
     }

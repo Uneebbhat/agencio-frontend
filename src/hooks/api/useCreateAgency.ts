@@ -6,30 +6,18 @@ import axios from "axios";
 import useUserStore from "@/store/useUserStore";
 import { toast } from "sonner";
 
-interface CreateCompanyFormData {
-  agencyLogo?: File | null;
-  agencyName: string;
-  agencyEmail: string;
-  agencyWebsite?: string;
-  agencyPhone: string;
-  agencySize: number;
-  industry: string;
-  userId: string;
-}
-
 const useCreateAgency = () => {
   const router = useRouter();
-  const { formData, setFormData, handleOnChange } =
-    useFormHandler<CreateCompanyFormData>({
-      agencyLogo: null,
-      agencyName: "",
-      agencyEmail: "",
-      agencyWebsite: "",
-      agencyPhone: "",
-      agencySize: 0,
-      industry: "",
-      userId: "",
-    });
+  const { formData, setFormData, handleOnChange } = useFormHandler({
+    agencyLogo: null,
+    agencyName: "",
+    agencyEmail: "",
+    agencyWebsite: "",
+    agencyPhone: "",
+    agencySize: 0,
+    industry: "",
+    userId: "",
+  });
   const { createAgency } = useAgencyStore();
   const { user } = useUserStore();
   const [loading, setLoading] = useState<boolean>(false);
@@ -84,12 +72,16 @@ const useCreateAgency = () => {
       toast.success(data.data.message || "Agecny created successfully");
 
       router.push("/launchpad");
-    } catch (error: any) {
-      toast.error(
-        error.response?.data?.error ||
-          "An error occurred while creating the agency."
-      );
-    } finally {
+    } catch (error: unknown) {
+      // Fix: Properly access error response for Axios errors
+      if (axios.isAxiosError(error)) {
+        toast.error(
+          error.response?.data?.error ||
+            "An error occurred while creating the agency."
+        );
+      } else {
+        toast.error("An error occurred while creating the agency.");
+      }
       setLoading(false);
     }
   };

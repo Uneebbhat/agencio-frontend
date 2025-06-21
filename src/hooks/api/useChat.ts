@@ -7,6 +7,7 @@ import useUserStore from "@/store/useUserStore";
 interface ChatFormData {
   senderId: string;
   message: string;
+  [key: string]: unknown;
 }
 
 interface ChatMessage {
@@ -45,9 +46,13 @@ const useChat = () => {
         message: "",
         senderId: user.user?.id ?? "",
       });
-    } catch (error: any) {
-      console.error(error);
-      toast.error(`Error occurred: ${error.message || "Unknown error"}`);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error);
+        toast.error(`Error occurred: ${error.message || "Unknown error"}`);
+      } else {
+        toast.error(`Unknown Error Occured`);
+      }
     } finally {
       setLoading(false);
     }
@@ -62,8 +67,12 @@ const useChat = () => {
         // }
       );
       setMessages(data.data.messages);
-    } catch (error: any) {
-      console.error("Failed to load chat history:", error);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Failed to load chat history:", error.message);
+      } else {
+        console.error("Failed to load chat history: Unknown error");
+      }
     }
   };
 
@@ -71,7 +80,7 @@ const useChat = () => {
     if (user.user?.id) {
       loadChatHistory();
     }
-  }, [user.user?.id]);
+  }, [user.user?.id, loadChatHistory]);
 
   return {
     formData,

@@ -13,7 +13,7 @@ const useGetAllClients = () => {
       try {
         const { data } = await axios.get("/api/v1/get-clients");
         setClientsData(data.data.allClients);
-      } catch (err) {
+      } catch {
         setError(true);
       } finally {
         setLoading(false);
@@ -21,7 +21,6 @@ const useGetAllClients = () => {
     };
 
     fetchClientsData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { clientsData, loading, error };

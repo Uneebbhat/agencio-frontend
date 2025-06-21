@@ -6,9 +6,9 @@ export enum ClientStatus {
   INACTIVE = "Inactive",
 }
 
-interface Client {
+export interface Client {
   agencyId: string;
-  id: string;
+  _id: string;
   clientName: string;
   clientEmail: string;
   status: ClientStatus;
@@ -34,13 +34,13 @@ const useClientStore = create<ClientsStore>()(
 
       removeClient: (clientId) =>
         set((state) => ({
-          clients: state.clients.filter((client) => client.id !== clientId),
+          clients: state.clients.filter((client) => client._id !== clientId),
         })),
 
       updateClient: (clientId, updatedClient) =>
         set((state) => ({
           clients: state.clients.map((client) =>
-            client.id === clientId ? { ...client, ...updatedClient } : client
+            client._id === clientId ? { ...client, ...updatedClient } : client
           ),
         })),
     }),

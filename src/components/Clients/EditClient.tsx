@@ -78,10 +78,7 @@ const EditClient: React.FC<EditClientProps> = ({ client, isOpen, onClose }) => {
             <Label htmlFor="status">Status</Label>
             <Select
               value={formData.status}
-              onValueChange={(
-                // @ts-expect-error
-                value: any
-              ) =>
+              onValueChange={(value: unknown) =>
                 setFormData((prev) => ({
                   ...prev,
                   status: value as ClientStatus,

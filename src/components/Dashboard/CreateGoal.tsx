@@ -35,7 +35,7 @@ const CreateGoal = () => {
                   <CardHeader className="flex flex-col md:flex-row justify-between md:items-center">
                     <CardTitle className="text-2xl">{goal.title}</CardTitle>
                     <div className="flex flex-col md:flex-row gap-[20px]">
-                      <p>{goal.endDate as any}</p>
+                      <p>{goal.endDate}</p>
                       <p>{goal.progress}% Achieved</p>
                     </div>
                   </CardHeader>

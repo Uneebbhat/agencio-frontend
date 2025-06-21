@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import useFormHandler from "../useFormHandler";
 import useAgencyStore from "@/store/useAgencyStore";
-import useClientStore from "@/store/useClientStore";
+import useClientStore, { ClientStatus } from "@/store/useClientStore";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -9,7 +9,8 @@ interface CreateClientProps {
   agencyId: string;
   clientName: string;
   clientEmail: string;
-  status: string;
+  status: ClientStatus;
+  [key: string]: unknown;
 }
 
 const useCreateClient = () => {
@@ -18,7 +19,7 @@ const useCreateClient = () => {
       agencyId: "",
       clientName: "",
       clientEmail: "",
-      status: "",
+      status: ClientStatus.ACTIVE,
     });
   const { agency } = useAgencyStore();
   const client = useClientStore((state) => state.addClient);
@@ -41,19 +42,28 @@ const useCreateClient = () => {
         agencyId: agency?.id as string,
         clientName: formData.clientName,
         clientEmail: formData.clientEmail,
-        status: formData.status as any,
-        id: data.data._id,
+        status: formData.status,
+        _id: data.data._id,
       });
       toast.success(data.message);
       window.location.reload();
-    } catch (error: any) {
-      console.log(error);
-
-      toast.error(
-        error.response?.data?.error ||
-          "An error occurred while creating the client."
-      );
-    } finally {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log(error);
+        if (
+          (error as AxiosError).isAxiosError &&
+          (error as AxiosError).response
+        ) {
+          const errData = (error as AxiosError).response?.data as
+            | { error?: string }
+            | undefined;
+          toast.error(
+            errData?.error || "An error occurred while creating the client."
+          );
+        } else {
+          toast.error("An error occurred while creating the client.");
+        }
+      }
       setloading(false);
     }
   };

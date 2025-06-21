@@ -21,7 +21,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import useCreateProject, { ProjectStatus } from "@/hooks/api/useCreateProject";
-import useClientStore from "@/store/useClientStore";
+import useClientStore, { Client } from "@/store/useClientStore";
 
 const CreateProject = () => {
   const { formData, handleOnChange, handleOnSubmit, setFormData, loading } =
@@ -67,7 +67,7 @@ const CreateProject = () => {
             <Select
               value={formData.clientName}
               onValueChange={(value: string) =>
-                setFormData((prev: any) => ({
+                setFormData((prev) => ({
                   ...prev,
                   clientName: value,
                 }))
@@ -77,7 +77,7 @@ const CreateProject = () => {
                 <SelectValue placeholder="Select a client" />
               </SelectTrigger>
               <SelectContent>
-                {getClients?.map((client: any) => (
+                {getClients?.map((client: Client) => (
                   <SelectItem key={client?._id} value={client?.clientName}>
                     {client.clientName}
                   </SelectItem>
@@ -90,7 +90,7 @@ const CreateProject = () => {
             <Select
               value={formData.projectStatus}
               onValueChange={(value: string) =>
-                setFormData((prev: any) => ({
+                setFormData((prev) => ({
                   ...prev,
                   status: value as ProjectStatus,
                 }))

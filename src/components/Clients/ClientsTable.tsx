@@ -19,11 +19,13 @@ import { cn } from "@/lib/utils";
 import ClientsTableSkeleton from "./ClientsTableSkeleton";
 import ClientsTableError from "./ClientsTableError";
 import EditClient from "./EditClient";
-import useDeleteClient from "@/hooks/api/useDeleteClient";
+import useDeleteClient, {
+  DeleteClientProps,
+} from "@/hooks/api/useDeleteClient";
 import { ClientStatus } from "@/store/useClientStore";
 import useGetAllClients from "@/hooks/api/useGetAllClients";
 
-interface ClientTableProps {
+export interface ClientTableProps {
   _id: string;
   clientName: string;
   clientEmail: string;
@@ -31,7 +33,7 @@ interface ClientTableProps {
   status: ClientStatus;
 }
 
-const formatDate = (dateString: any) => {
+const formatDate = (dateString: string) => {
   const date = new Date(dateString);
   return new Intl.DateTimeFormat("en-GB", {
     day: "2-digit",
@@ -49,7 +51,9 @@ const ClientsTable = ({ searchQuery }: ClientsTablePropsInput) => {
   const [filteredClients, setFilteredClients] = useState<ClientTableProps[]>(
     []
   );
-  const [selectedClient, setSelectedClient] = useState(null);
+  const [selectedClient, setSelectedClient] = useState<ClientTableProps | null>(
+    null
+  );
   const [isEditOpen, setIsEditOpen] = useState(false);
   const { handleOnSubmit } = useDeleteClient();
   // const { clients } = useClientStore();
@@ -108,14 +112,18 @@ const ClientsTable = ({ searchQuery }: ClientsTablePropsInput) => {
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
                         onClick={() => {
-                          setSelectedClient(client as any);
+                          setSelectedClient(client as ClientTableProps);
                           setIsEditOpen(true);
                         }}
                       >
                         Edit
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        onClick={() => handleOnSubmit(client._id as any)}
+                        onClick={() =>
+                          handleOnSubmit(
+                            client._id as unknown as DeleteClientProps
+                          )
+                        }
                       >
                         Delete
                       </DropdownMenuItem>
@@ -137,7 +145,7 @@ const ClientsTable = ({ searchQuery }: ClientsTablePropsInput) => {
       {/* Edit Client Modal */}
       {isEditOpen && (
         <EditClient
-          client={selectedClient as any}
+          client={selectedClient as ClientTableProps}
           isOpen={isEditOpen}
           onClose={() => setIsEditOpen(false)}
         />

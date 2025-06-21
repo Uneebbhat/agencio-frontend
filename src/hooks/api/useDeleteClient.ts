@@ -4,7 +4,7 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
 
-interface DeleteClientProps {
+export interface DeleteClientProps {
   clientId: string;
 }
 
@@ -26,15 +26,20 @@ const useDeleteClient = () => {
       );
       toast.success(data.message || "Client deleted successfully!");
 
-      removeClient(clientId as any);
+      removeClient((clientId as DeleteClientProps).clientId);
 
       window.location.reload();
-    } catch (error: any) {
-      console.error("Error deleting client:", error.response || error);
-      toast.error(
-        error.response?.data?.error ||
-          "An error occurred while deleting the client."
-      );
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "response" in error) {
+        const err = error as { response?: { data?: { error?: string } } };
+        console.error("Error deleting client:", err.response || error);
+        toast.error(
+          err.response?.data?.error ||
+            "An error occurred while deleting the client."
+        );
+      } else {
+        toast.error("An error occurred while deleting the client.");
+      }
     } finally {
       setLoading(false);
     }

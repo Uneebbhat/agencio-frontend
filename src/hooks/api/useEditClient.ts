@@ -9,6 +9,7 @@ interface EditClientProps {
   clientName: string;
   clientEmail: string;
   status: ClientStatus;
+  [key: string]: unknown;
 }
 
 const useEditClient = () => {
@@ -25,10 +26,10 @@ const useEditClient = () => {
 
   useEffect(() => {
     if (clients.length > 0) {
-      const client = clients.find((c) => c.id === formData.clientId);
+      const client = clients.find((c) => c._id === formData.clientId);
       if (client) {
         setFormData({
-          clientId: client.id,
+          clientId: client._id,
           clientName: client.clientName,
           clientEmail: client.clientEmail,
           status: client.status,
@@ -52,8 +53,13 @@ const useEditClient = () => {
       toast.success(data.message || "Client updated successfully");
 
       window.location.reload();
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "An error occurred");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "response" in error) {
+        const err = error as { response?: { data?: { error?: string } } };
+        toast.error(err.response?.data?.error || "An error occurred");
+      } else {
+        toast.error("An error occurred");
+      }
     } finally {
       setLoading(false);
     }

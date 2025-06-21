@@ -7,9 +7,14 @@ import axios from "axios";
 
 interface ResetPasswordProps {
   password: string;
+  [key: string]: unknown;
 }
 
-const useResetPassword = (token: any) => {
+interface ResetPasswordToken {
+  token: string;
+}
+
+const useResetPassword = (token: ResetPasswordToken) => {
   const { formData, handleOnChange } = useFormHandler<ResetPasswordProps>({
     password: "",
   });
@@ -35,10 +40,15 @@ const useResetPassword = (token: any) => {
       toast.success(data.message);
 
       setSuccess(true);
-    } catch (error: any) {
-      toast.error(
-        error.response?.data?.error || "An error occurred during password reset"
-      );
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "response" in error) {
+        const err = error as { response?: { data?: { error?: string } } };
+        toast.error(
+          err.response?.data?.error || "An error occurred during password reset"
+        );
+      } else {
+        toast.error("An error occurred during password reset");
+      }
     } finally {
       setLoading(false);
     }

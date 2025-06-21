@@ -11,7 +11,8 @@ interface SignupFormDataProps {
   name: string;
   email: string;
   password: string;
-  profilePic: File | any;
+  profilePic: File | null;
+  [key: string]: unknown;
 }
 
 const useSignup = () => {
@@ -87,8 +88,13 @@ const useSignup = () => {
       toast.success(data.message);
 
       router.push("/agency-setup");
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "Failed to create account");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "response" in error) {
+        const err = error as { response?: { data?: { error?: string } } };
+        toast.error(err.response?.data?.error || "Failed to create account");
+      } else {
+        toast.error("Failed to create account");
+      }
     } finally {
       setLoading(false);
     }

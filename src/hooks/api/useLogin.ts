@@ -12,6 +12,7 @@ import useClientStore from "@/store/useClientStore";
 interface LoginFormDataProps {
   email: string;
   password: string;
+  [key: string]: unknown;
 }
 
 const useLogin = () => {
@@ -63,14 +64,19 @@ const useLogin = () => {
         clientName: data.data.clients.clientName,
         clientEmail: data.data.clients.clientEmail,
         status: data.data.clients.status,
-        id: data.data.clients._id,
+        _id: data.data.clients._id,
       });
 
       toast.success(data.message);
 
       router.push("/dashboard");
-    } catch (error: any) {
-      toast.error(error.response?.data?.error || "Failed to login");
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "response" in error) {
+        const err = error as { response?: { data?: { error?: string } } };
+        toast.error(err.response?.data?.error || "Failed to login");
+      } else {
+        toast.error("Failed to login");
+      }
     } finally {
       setLoading(false);
     }

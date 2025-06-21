@@ -18,6 +18,7 @@ interface CreateProjectProps {
   projectName: string;
   projectStatus: ProjectStatus;
   projectBudget: number;
+  [key: string]: unknown;
 }
 
 const useCreateProject = () => {
@@ -45,13 +46,16 @@ const useCreateProject = () => {
       });
       console.log(data);
       window.location.reload();
-    } catch (error: any) {
-      console.log(error);
-
-      toast.error(
-        error.response?.data?.error ||
-          "An error occurred while creating the client."
-      );
+    } catch (error: unknown) {
+      if (error && typeof error === "object" && "response" in error) {
+        const err = error as { response?: { data?: { error?: string } } };
+        toast.error(
+          err.response?.data?.error ||
+            "An error occurred while creating the client."
+        );
+      } else {
+        toast.error("An error occurred while creating the client.");
+      }
     } finally {
       setLoading(false);
     }
