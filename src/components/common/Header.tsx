@@ -18,9 +18,9 @@ const Header = () => {
           />
         </div>
         <nav className="hidden md:flex items-center gap-[40px]">
-          <a href="/">Home</a>
-          <a href="/">Features</a>
-          <a href="/">Pricing</a>
+          <Link href="/">Home</Link>
+          <Link href="/">Features</Link>
+          <Link href="/">Pricing</Link>
         </nav>
         {user && user ? (
           <>

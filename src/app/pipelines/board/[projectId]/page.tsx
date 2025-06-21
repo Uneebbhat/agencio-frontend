@@ -1,9 +1,18 @@
 "use client";
 
-import { DndContext, PointerSensor, TouchSensor, KeyboardSensor, useSensor, useSensors, closestCorners } from "@dnd-kit/core";
+import {
+  DndContext,
+  PointerSensor,
+  TouchSensor,
+  KeyboardSensor,
+  useSensor,
+  useSensors,
+  closestCorners,
+} from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
 import Column from "@/components/Column";
 import React, { useState } from "react";
+import type { DragEndEvent } from "@dnd-kit/core";
 
 const KanbanBoard = () => {
   const [tasks, setTasks] = useState([
@@ -12,13 +21,17 @@ const KanbanBoard = () => {
     { id: 3, title: "Task 3" },
   ]);
 
-  const getTaskPosition = (id: number) => tasks.findIndex(t => t.id === id);
+  const getTaskPosition = (id: number) => tasks.findIndex((t) => t.id === id);
 
-  const handleDragEnd = (event: any) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    setTasks(t => arrayMove(t, getTaskPosition(active.id), getTaskPosition(over.id)));
+    // Convert active.id and over.id to numbers before using as indices
+    const fromIndex = getTaskPosition(Number(active.id));
+    const toIndex = getTaskPosition(Number(over.id));
+
+    setTasks((t) => arrayMove(t, fromIndex, toIndex));
   };
 
   const sensors = useSensors(
@@ -35,7 +48,11 @@ const KanbanBoard = () => {
       <div className="overflow-x-auto bg-slate-600">
         {/* Row that expands based on children width */}
         <div className="flex w-max gap-4">
-          <DndContext collisionDetection={closestCorners} onDragEnd={handleDragEnd} sensors={sensors}>
+          <DndContext
+            collisionDetection={closestCorners}
+            onDragEnd={handleDragEnd}
+            sensors={sensors}
+          >
             <div className="w-[400px] flex-shrink-0">
               <Column tasks={tasks} />
             </div>
