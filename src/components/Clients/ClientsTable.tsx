@@ -40,22 +40,23 @@ const formatDate = (dateString: any) => {
   }).format(date);
 };
 
-const ClientsTable = (
-  // @ts-ignore
-  { searchQuery }: any
-) => {
+interface ClientsTablePropsInput {
+  searchQuery: string;
+}
+
+const ClientsTable = ({ searchQuery }: ClientsTablePropsInput) => {
   const { clientsData, loading, error } = useGetAllClients();
-  const [filteredClients, setFilteredClients] = useState([]);
+  const [filteredClients, setFilteredClients] = useState<ClientTableProps[]>(
+    []
+  );
   const [selectedClient, setSelectedClient] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
   const { handleOnSubmit } = useDeleteClient();
   // const { clients } = useClientStore();
   useEffect(() => {
     if (clientsData) {
-      console.log("Client Data:", clientsData);
       setFilteredClients(
-        // @ts-ignore
-        clientsData.filter((client: any) =>
+        clientsData.filter((client: ClientTableProps) =>
           client.clientName.toLowerCase().includes(searchQuery.toLowerCase())
         )
       );
@@ -107,7 +108,6 @@ const ClientsTable = (
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
                         onClick={() => {
-                          // @ts-ignore
                           setSelectedClient(client as any);
                           setIsEditOpen(true);
                         }}
@@ -115,7 +115,6 @@ const ClientsTable = (
                         Edit
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        // @ts-ignore
                         onClick={() => handleOnSubmit(client._id as any)}
                       >
                         Delete
@@ -138,7 +137,6 @@ const ClientsTable = (
       {/* Edit Client Modal */}
       {isEditOpen && (
         <EditClient
-          // @ts-ignore
           client={selectedClient as any}
           isOpen={isEditOpen}
           onClose={() => setIsEditOpen(false)}

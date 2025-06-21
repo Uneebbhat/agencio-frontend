@@ -79,7 +79,7 @@ const EditClient: React.FC<EditClientProps> = ({ client, isOpen, onClose }) => {
             <Select
               value={formData.status}
               onValueChange={(
-                // @ts-ignore
+                // @ts-expect-error
                 value: any
               ) =>
                 setFormData((prev) => ({

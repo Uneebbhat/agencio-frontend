@@ -10,7 +10,7 @@ const Column = ({
   tasks,
 }: {
   className?: string;
-  // @ts-ignore
+  // @ts-expect-error
   tasks: any[];
 }) => {
   return (
@@ -21,7 +21,7 @@ const Column = ({
         <SortableContext items={tasks} strategy={verticalListSortingStrategy}>
           {tasks.map(
             (
-              // @ts-ignore
+              // @ts-expect-error
               task: any
             ) => (
               <Task id={task.id} title={task.title} key={task.id} />
