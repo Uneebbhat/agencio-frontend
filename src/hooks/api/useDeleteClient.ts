@@ -1,5 +1,5 @@
 import useClientStore from "@/store/useClientStore";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+// import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ interface DeleteClientProps {
 
 const useDeleteClient = () => {
   const [loading, setLoading] = useState<boolean>(false);
+  const { removeClient } = useClientStore();
 
   const handleOnSubmit = async (clientId: DeleteClientProps) => {
     if (!clientId) {
@@ -24,6 +25,8 @@ const useDeleteClient = () => {
         `/api/v1/delete-client?clientId=${clientId}`
       );
       toast.success(data.message || "Client deleted successfully!");
+
+      removeClient(clientId as any);
 
       window.location.reload();
     } catch (error: any) {

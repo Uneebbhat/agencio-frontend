@@ -16,12 +16,12 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { EllipsisVertical } from "lucide-react";
 import { cn } from "@/lib/utils";
-import useGetAllClients from "@/hooks/api/useGetAllClients";
 import ClientsTableSkeleton from "./ClientsTableSkeleton";
 import ClientsTableError from "./ClientsTableError";
 import EditClient from "./EditClient";
 import useDeleteClient from "@/hooks/api/useDeleteClient";
-import useClientStore, { ClientStatus } from "@/store/useClientStore";
+import { ClientStatus } from "@/store/useClientStore";
+import useGetAllClients from "@/hooks/api/useGetAllClients";
 
 interface ClientTableProps {
   _id: string;
@@ -41,7 +41,7 @@ const formatDate = (dateString: any) => {
 };
 
 const ClientsTable = ({ searchQuery }: any) => {
-  const { data: clientsData, isLoading, isError } = useGetAllClients();
+  const { clientsData, loading, error } = useGetAllClients();
   const [filteredClients, setFilteredClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [isEditOpen, setIsEditOpen] = useState(false);
@@ -58,8 +58,8 @@ const ClientsTable = ({ searchQuery }: any) => {
     }
   }, [clientsData, searchQuery]);
 
-  if (isLoading) return <ClientsTableSkeleton />;
-  if (isError) return <ClientsTableError />;
+  if (loading) return <ClientsTableSkeleton />;
+  if (error) return <ClientsTableError />;
 
   return (
     <section className="p-[20px]">

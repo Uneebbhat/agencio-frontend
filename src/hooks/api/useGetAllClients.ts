@@ -1,18 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-
-const fetchClients = async () => {
-  // throw new Error("Simulated API error");
-  const { data } = await axios.get("/api/v1/get-clients");
-  return data.data.allClients;
-};
+import { useEffect, useState } from "react";
 
 const useGetAllClients = () => {
-  return useQuery({
-    queryKey: ["clients"],
-    queryFn: fetchClients,
-    retry: false,
-  });
+  const [clientsData, setClientsData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    const fetchClientsData = async () => {
+      const { data } = await axios.get("/api/v1/get-clients");
+      setClientsData(data.data.allClients);
+    };
+
+    fetchClientsData();
+  }, [clientsData]);
+
+  return { clientsData, loading, error };
 };
 
 export default useGetAllClients;
