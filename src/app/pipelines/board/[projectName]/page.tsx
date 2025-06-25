@@ -9,7 +9,7 @@ import {
   useSensors,
   closestCorners,
 } from "@dnd-kit/core";
-import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
+import { sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import Column from "@/components/Column";
 import React, { useState } from "react";
 import type { DragEndEvent } from "@dnd-kit/core";
@@ -110,8 +110,12 @@ const KanbanBoard = () => {
         >
           <div className="bg-gray-200 overflow-x-auto">
             <div className="flex items-start justify-start gap-4 w-max min-w-0 p-4">
-              {columns.map((column) => (
-                <Column tasks={column.tasks} columnTitle={column.columnTitle} />
+              {columns.map((column, idx) => (
+                <Column
+                  key={idx}
+                  tasks={column.tasks}
+                  columnTitle={column.columnTitle}
+                />
               ))}
             </div>
           </div>

@@ -80,7 +80,7 @@ const useChat = () => {
     if (user.user?.id) {
       loadChatHistory();
     }
-  }, [user.user?.id, loadChatHistory]);
+  }, [user.user?.id]);
 
   return {
     formData,
