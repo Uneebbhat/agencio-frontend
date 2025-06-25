@@ -30,12 +30,15 @@ const useCreateClient = () => {
     setloading(true);
 
     try {
-      const { data } = await axios.post("/api/v1/create-client", {
-        agencyId: agency?.id,
-        clientName: formData.clientName,
-        clientEmail: formData.clientEmail,
-        status: formData.status,
-      });
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/create-client",
+        {
+          agencyId: agency?.id,
+          clientName: formData.clientName,
+          clientEmail: formData.clientEmail,
+          status: formData.status,
+        }
+      );
       console.log(data);
 
       client({

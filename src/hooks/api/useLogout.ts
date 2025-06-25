@@ -15,7 +15,7 @@ const useLogout = () => {
     setIsSuccess(false);
 
     try {
-      const { data } = await axios.post("/api/v1/logout");
+      const { data } = await axios.post("http://localhost:5000/api/v1/logout");
       toast.success(data.message || "Logout successful");
       logout();
       setIsSuccess(true);

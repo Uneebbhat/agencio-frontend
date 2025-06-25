@@ -22,9 +22,12 @@ const useForgotPassword = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("/api/v1/forgot-password", {
-        email: formData.email,
-      });
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/forgot-password",
+        {
+          email: formData.email,
+        }
+      );
 
       toast.success(data.message);
 

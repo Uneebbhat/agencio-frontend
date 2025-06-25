@@ -43,12 +43,15 @@ const useEditClient = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.put(`/api/v1/edit-client`, {
-        clientId: formData.clientId,
-        clientName: formData.clientName,
-        clientEmail: formData.clientEmail,
-        status: formData.status,
-      });
+      const { data } = await axios.put(
+        `http://localhost:5000/api/v1/edit-client`,
+        {
+          clientId: formData.clientId,
+          clientName: formData.clientName,
+          clientEmail: formData.clientEmail,
+          status: formData.status,
+        }
+      );
 
       toast.success(data.message || "Client updated successfully");
 

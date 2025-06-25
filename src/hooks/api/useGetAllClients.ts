@@ -11,7 +11,9 @@ const useGetAllClients = () => {
       setLoading(true);
       setError(false);
       try {
-        const { data } = await axios.get("/api/v1/get-clients");
+        const { data } = await axios.get(
+          "http://localhost:5000/api/v1/get-clients"
+        );
         setClientsData(data.data.allClients);
       } catch {
         setError(true);

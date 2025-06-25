@@ -37,13 +37,16 @@ const useCreateProject = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { data } = await axios.post("/api/v1/create-project", {
-        agencyId: agency?.id,
-        clientName: formData.clientName,
-        projectName: formData.projectName,
-        projectStatus: formData.projectStatus,
-        projectBudget: formData.projectBudget,
-      });
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/create-project",
+        {
+          agencyId: agency?.id,
+          clientName: formData.clientName,
+          projectName: formData.projectName,
+          projectStatus: formData.projectStatus,
+          projectBudget: formData.projectBudget,
+        }
+      );
       console.log(data);
       window.location.reload();
     } catch (error: unknown) {

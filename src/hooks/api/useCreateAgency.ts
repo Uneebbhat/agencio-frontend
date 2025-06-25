@@ -47,7 +47,7 @@ const useCreateAgency = () => {
       agencyFormData.append("userId", user!.id);
 
       const { data } = await axios.post(
-        "/api/v1/create-agency",
+        "http://localhost:5000/api/v1/create-agency",
         agencyFormData,
         {
           headers: {

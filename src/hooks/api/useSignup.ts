@@ -71,11 +71,15 @@ const useSignup = () => {
       userFormData.append("password", formData.password);
       userFormData.append("profilePic", formData.profilePic);
 
-      const { data } = await axios.post("/api/v1/signup", userFormData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const { data } = await axios.post(
+        "http://localhost:5000/api/v1/signup",
+        userFormData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
       signup({
         id: data.data._id,

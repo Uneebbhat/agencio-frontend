@@ -34,7 +34,7 @@ const useChat = () => {
     setLoading(true);
 
     try {
-      const { data } = await axios.post("/api/v1/chat", {
+      const { data } = await axios.post("http://localhost:5000/api/v1/chat", {
         senderId: user.user?.id,
         message: formData.message,
       });
@@ -61,7 +61,7 @@ const useChat = () => {
   const loadChatHistory = async () => {
     try {
       const { data } = await axios.get(
-        `/api/v1/chat-history/${user.user?.id}`
+        `http://localhost:5000/api/v1/chat-history/${user.user?.id}`
         // {
         //   params: { senderId: user.user?.id },
         // }

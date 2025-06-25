@@ -22,7 +22,7 @@ const useDeleteClient = () => {
 
     try {
       const { data } = await axios.delete(
-        `/api/v1/delete-client?clientId=${clientId}`
+        `http://localhost:5000/api/v1/delete-client?clientId=${clientId}`
       );
       toast.success(data.message || "Client deleted successfully!");
 

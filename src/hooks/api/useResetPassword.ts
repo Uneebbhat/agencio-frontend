@@ -31,7 +31,7 @@ const useResetPassword = (token: ResetPasswordToken) => {
 
     try {
       const { data } = await axios.post(
-        `/api/v1/reset-password/${resetToken}`,
+        `http://localhost:5000/api/v1/reset-password/${resetToken}`,
         {
           password: formData.password,
         }
