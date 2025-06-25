@@ -47,7 +47,7 @@ const Column = ({
 
   return (
     <div
-      className={`rounded shadow ${className} bg-gray-100 p-4 flex flex-col gap-4 w-[300px]`}
+      className={`rounded shadow ${className} bg-gray-100 p-4 flex flex-col gap-4 w-[400px]`}
     >
       <h2 className="">
         <span

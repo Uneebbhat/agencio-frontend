@@ -13,8 +13,17 @@ import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
 import Column from "@/components/Column";
 import React, { useState } from "react";
 import type { DragEndEvent } from "@dnd-kit/core";
+import { usePathname } from "next/navigation";
 
 const KanbanBoard = () => {
+  const pathname = usePathname();
+  const pathSegment = pathname.split("/")[3];
+  // Capitalize the first character and show as title
+  const title =
+    pathSegment && pathSegment.length > 0
+      ? pathSegment.charAt(0).toUpperCase() + pathSegment.slice(1)
+      : "";
+
   const [columns, setColumns] = useState([
     {
       columnTitle: "Todo",
@@ -91,7 +100,7 @@ const KanbanBoard = () => {
 
   return (
     <div className="min-h-screen p-6">
-      <h1 className="mb-6 text-2xl font-bold">Kanban Board</h1>
+      <h1 className="mb-6 text-2xl font-bold">{title}</h1>
 
       <div>
         <DndContext

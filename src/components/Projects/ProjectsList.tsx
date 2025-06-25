@@ -47,10 +47,10 @@ const ProjectsList = () => {
   const { projects } = useGetAllProjects();
   return (
     <div className="pt-8">
-      <ScrollArea className="h-[600px] rounded-md border p-4">
+      <ScrollArea className="rounded-md border p-4">
         <div className="space-y-4">
           {projects ? (
-            projects.map((project) => (
+            projects.map((project: any) => (
               <Link
                 key={project._id}
                 href={`/projects/${project._id}`}

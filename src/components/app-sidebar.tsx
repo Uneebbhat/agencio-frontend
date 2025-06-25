@@ -48,9 +48,9 @@ const data = {
       url: "/pipelines",
       icon: SquareKanban,
       items: [
-        { title: "MicroSoft", url: "/projects/microsoft", icon: Frame },
-        { title: "Google", url: "/projects/google", icon: Frame },
-        { title: "Facebook", url: "/projects/facebook", icon: Frame },
+        { title: "MicroSoft", url: "/pipelines/board/microsoft", icon: Frame },
+        { title: "Google", url: "/pipelines/board/google", icon: Frame },
+        { title: "Facebook", url: "/pipelines/board/facebook", icon: Frame },
       ],
     },
     { title: "Team", url: "/team", icon: Users },

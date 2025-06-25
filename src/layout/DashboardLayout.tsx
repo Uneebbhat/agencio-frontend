@@ -45,6 +45,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
                   return (
                     <div key={href} className="flex items-center">
                       <BreadcrumbItem>
+                        /
                         {index === pathSegments.length - 1 ? (
                           <BreadcrumbPage>{formattedSegment}</BreadcrumbPage>
                         ) : (
