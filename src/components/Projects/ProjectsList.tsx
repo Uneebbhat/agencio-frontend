@@ -8,6 +8,15 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Progress } from "@/components/ui/progress";
 import useGetAllProjects from "@/hooks/api/useGetAllProjects";
 
+export type Project = {
+  _id: string;
+  projectName: string;
+  clientName: string;
+  projectStatus: keyof typeof statusColors;
+  createdAt: string; // ISO date string
+  progress: number;
+};
+
 // const projects = [
 //   {
 //     id: 1,
@@ -44,13 +53,14 @@ const statusColors: Record<string, string> = {
 };
 
 const ProjectsList = () => {
-  const { projects } = useGetAllProjects();
+  const { projects, loading }: { projects?: Project[]; loading?: boolean } =
+    useGetAllProjects() as { projects?: Project[]; loading?: boolean };
   return (
     <div className="pt-8">
       <ScrollArea className="rounded-md border p-4">
         <div className="space-y-4">
           {projects ? (
-            projects.map((project: any) => (
+            projects.map((project) => (
               <Link
                 key={project._id}
                 href={`/projects/${project._id}`}
