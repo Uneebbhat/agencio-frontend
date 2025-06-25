@@ -17,7 +17,9 @@ const useGetAllProjects = () => {
     const fetchAllProjects = async () => {
       setLoading(true);
       try {
-        const { data } = await axios.get("/api/v1/get-all-projects");
+        const { data } = await axios.get(
+          "http://localhost:5000/api/v1/get-all-projects"
+        );
         setProjects(data.data);
         console.log(data.data);
       } catch (error: unknown) {

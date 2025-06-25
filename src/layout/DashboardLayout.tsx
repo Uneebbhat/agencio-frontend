@@ -29,7 +29,20 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 p-[20px]">
+        {/* Development Banner */}
+        <div className="w-full bg-gradient-to-r  text-center py-2 px-4 font-semibold flex items-center justify-center gap-2 rounded-b-lg shadow-md">
+          <span className="text-xl">🚧</span>
+          <span>
+            This website is{" "}
+            <span className="underline underline-offset-2">
+              still under development
+            </span>{" "}
+            — features may change!
+          </span>
+          <span className="text-xl">🛠️</span>
+        </div>
+        {/* End Development Banner */}
+        <header className="flex flex-col h-16 shrink-0  gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 p-[20px]">
           <div className="flex items-center gap-2">
             <SidebarTrigger className="-ml-1" />
             <ModeToggle />
