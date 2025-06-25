@@ -17,33 +17,6 @@ export type Project = {
   progress: number;
 };
 
-// const projects = [
-//   {
-//     id: 1,
-//     name: "Website Redesign",
-//     client: "Acme Corp",
-//     status: "In Progress",
-//     createdAt: "2025-04-01",
-//     progress: 45,
-//   },
-//   {
-//     id: 2,
-//     name: "Mobile App Development",
-//     client: "TechNova",
-//     status: "Completed",
-//     createdAt: "2025-03-15",
-//     progress: 100,
-//   },
-//   {
-//     id: 3,
-//     name: "Marketing Dashboard",
-//     client: "BrightMedia",
-//     status: "Pending",
-//     createdAt: "2025-03-30",
-//     progress: 10,
-//   },
-// ];
-
 const statusColors: Record<string, string> = {
   Pending: "bg-gray-500",
   "In Progress": "bg-yellow-500",
@@ -55,11 +28,18 @@ const statusColors: Record<string, string> = {
 const ProjectsList = () => {
   const { projects, loading }: { projects?: Project[]; loading?: boolean } =
     useGetAllProjects() as { projects?: Project[]; loading?: boolean };
+
   return (
     <div className="pt-8">
       <ScrollArea className="rounded-md border p-4">
         <div className="space-y-4">
-          {projects ? (
+          {loading ? (
+            <div className="flex justify-center items-center py-8">
+              <span className="text-muted-foreground text-sm">
+                Loading projects...
+              </span>
+            </div>
+          ) : projects && projects.length > 0 ? (
             projects.map((project) => (
               <Link
                 key={project._id}
@@ -105,9 +85,11 @@ const ProjectsList = () => {
               </Link>
             ))
           ) : (
-            <>
-              <h2>No projects found</h2>
-            </>
+            <div className="flex justify-center items-center py-8">
+              <h2 className="text-muted-foreground text-sm">
+                No projects found
+              </h2>
+            </div>
           )}
         </div>
       </ScrollArea>
