@@ -1,5 +1,6 @@
 "use client";
 
+import CreateGoal from "@/components/Goals/CreateGoal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
@@ -13,14 +14,11 @@ export default function GoalsPage() {
             <h1 className="text-2xl font-semibold md:mb-0">Goals</h1>
             <div className="flex items-center gap-2">
               <Input
-                type="text"
+                type="search"
                 placeholder="Search Goal"
                 className="hidden md:block md:w-[250px]"
               />
-              <Button>
-                <Plus />
-                Create Goal
-              </Button>
+              <CreateGoal />
             </div>
           </div>
           <div>

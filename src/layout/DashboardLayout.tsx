@@ -30,7 +30,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
       <AppSidebar />
       <SidebarInset>
         {/* Development Banner */}
-        <div className="w-full bg-gradient-to-r  text-center py-2 px-4 font-semibold flex items-center justify-center gap-2 rounded-b-lg shadow-md">
+        <div className="w-full bg-gradient-to-r text-center py-2 px-4 font-semibold flex items-center justify-center gap-2 rounded-b-lg shadow-sm mb-4">
           <span className="text-xl">🚧</span>
           <span>
             This website is{" "}
@@ -42,7 +42,7 @@ const DashboardLayout = ({ children }: DashboardLayoutProps) => {
           <span className="text-xl">🛠️</span>
         </div>
         {/* End Development Banner */}
-        <header className="flex flex-col h-16 shrink-0  gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 p-[20px]">
+        <header className="flex flex-col h-16 shrink-0  gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12 px-2">
           <div className="flex items-center gap-2">
             <SidebarTrigger className="-ml-1" />
             <ModeToggle />
