@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
 
-export default function GoalPage() {
+export default function GoalsPage() {
   return (
     <>
       <section className="py-[20px]">

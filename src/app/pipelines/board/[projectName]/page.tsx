@@ -15,7 +15,7 @@ import React, { useState } from "react";
 import type { DragEndEvent } from "@dnd-kit/core";
 import { usePathname } from "next/navigation";
 
-const KanbanBoard = () => {
+export default function KanbanBoardPage() {
   const pathname = usePathname();
   const pathSegment = pathname.split("/")[3];
   // Capitalize the first character and show as title
@@ -123,6 +123,4 @@ const KanbanBoard = () => {
       </div>
     </div>
   );
-};
-
-export default KanbanBoard;
+}

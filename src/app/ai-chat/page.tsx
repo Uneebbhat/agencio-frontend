@@ -7,7 +7,7 @@ import Spinner from "@/components/Spinner";
 import useChat from "@/hooks/api/useChat";
 import ReactMarkdown from "react-markdown";
 
-export default function Page() {
+export default function AIChatPage() {
   const { formData, messages, loading, handleOnChange, handleOnSubmit } =
     useChat();
 
@@ -23,7 +23,7 @@ export default function Page() {
   }, [messages]);
 
   return (
-    <section className="p-[20px] flex flex-col h-[85vh]">
+    <section className="py-[20px] flex flex-col h-[85vh]">
       <div
         ref={chatContainerRef}
         className="flex flex-1 flex-col gap-4 overflow-y-auto mb-4 w-full bg-background px-2 py-4 rounded-lg border border-muted"
