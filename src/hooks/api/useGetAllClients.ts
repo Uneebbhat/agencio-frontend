@@ -6,22 +6,22 @@ const useGetAllClients = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    const fetchClientsData = async () => {
-      setLoading(true);
-      setError(false);
-      try {
-        const { data } = await axios.get(
-          "http://localhost:5000/api/v1/get-clients"
-        );
-        setClientsData(data.data.allClients);
-      } catch {
-        setError(true);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchClientsData = async () => {
+    setLoading(true);
+    setError(false);
+    try {
+      const { data } = await axios.get(
+        "http://localhost:5000/api/v1/get-clients"
+      );
+      setClientsData(data.data.allClients);
+    } catch {
+      setError(true);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchClientsData();
   }, []);
 

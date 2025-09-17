@@ -44,14 +44,9 @@ const data = {
       ],
     },
     {
-      title: "Pipelines",
-      url: "/pipelines",
-      icon: SquareKanban,
-      items: [
-        { title: "MicroSoft", url: "/pipelines/board/microsoft", icon: Frame },
-        { title: "Google", url: "/pipelines/board/google", icon: Frame },
-        { title: "Facebook", url: "/pipelines/board/facebook", icon: Frame },
-      ],
+      title: "Goals",
+      url: "/goals",
+      icon: Target,
     },
     { title: "Team", url: "/team", icon: Users },
     {
@@ -61,13 +56,8 @@ const data = {
       // badge: "Coming Soon",
       // disabled: true,
     },
-    {
-      title: "Goals",
-      url: "/goals",
-      icon: Target,
-      badge: "Coming Soon",
-      disabled: true,
-    },
+
+    { title: "Launchpad", url: "/launchpad", icon: ClipboardList },
     {
       title: "Bucket",
       url: "/bucket",
@@ -75,7 +65,18 @@ const data = {
       badge: "Coming Soon",
       disabled: true,
     },
-    { title: "Launchpad", url: "/launchpad", icon: ClipboardList },
+    {
+      title: "Pipelines",
+      url: "/pipelines",
+      icon: SquareKanban,
+      badge: "Coming Soon",
+      disabled: true,
+      // items: [
+      //   { title: "MicroSoft", url: "/pipelines/board/microsoft", icon: Frame },
+      //   { title: "Google", url: "/pipelines/board/google", icon: Frame },
+      //   { title: "Facebook", url: "/pipelines/board/facebook", icon: Frame },
+      // ],
+    },
   ],
 };
 

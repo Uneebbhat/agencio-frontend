@@ -49,7 +49,7 @@ const useCreateClient = () => {
         _id: data.data._id,
       });
       toast.success(data.message);
-      window.location.reload();
+      // window.location.reload();
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log(error);

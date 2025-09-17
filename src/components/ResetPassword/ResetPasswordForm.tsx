@@ -38,7 +38,7 @@ const ResetPasswordForm = () => {
 
   if (success) {
     return (
-      <section className="p-[20px]">
+      <section className="py-[20px]">
         <ResetPasswordSuccess />
       </section>
     );

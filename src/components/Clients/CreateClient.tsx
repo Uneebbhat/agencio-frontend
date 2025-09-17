@@ -18,6 +18,7 @@ import {
 } from "../ui/dropdown-menu";
 import Spinner from "../Spinner";
 import { Plus } from "lucide-react";
+import { ClientStatus } from "@/store/useClientStore";
 
 const CreateClient = () => {
   const { formData, handleOnChange, handleOnSubmit, setFormData, loading } =
@@ -79,14 +80,20 @@ const CreateClient = () => {
                   <DropdownMenuContent className="w-56">
                     <DropdownMenuItem
                       onClick={() =>
-                        setFormData({ ...formData, status: "Active" })
+                        setFormData({
+                          ...formData,
+                          status: ClientStatus.ACTIVE,
+                        })
                       }
                     >
                       Active
                     </DropdownMenuItem>
                     <DropdownMenuItem
                       onClick={() =>
-                        setFormData({ ...formData, status: "Inactive" })
+                        setFormData({
+                          ...formData,
+                          status: ClientStatus.INACTIVE,
+                        })
                       }
                     >
                       Inactive

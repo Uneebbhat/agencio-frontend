@@ -1,12 +1,10 @@
 import AgencySetupForm from "@/components/AgencySetup/AgencySetupForm";
 import React from "react";
 
-const page = () => {
+export default function AgencySetupPage() {
   return (
     <>
       <AgencySetupForm />
     </>
   );
-};
-
-export default page;
+}

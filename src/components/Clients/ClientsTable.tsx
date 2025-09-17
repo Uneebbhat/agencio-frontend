@@ -71,7 +71,7 @@ const ClientsTable = ({ searchQuery }: ClientsTablePropsInput) => {
   if (error) return <ClientsTableError />;
 
   return (
-    <section className="p-[20px]">
+    <section className="py-[20px]">
       <Table>
         <TableCaption>A list of your recent clients.</TableCaption>
         <TableHeader>

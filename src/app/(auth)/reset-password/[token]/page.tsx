@@ -1,14 +1,12 @@
 import ResetPasswordForm from "@/components/ResetPassword/ResetPasswordForm";
 import React from "react";
 
-const page = () => {
+export default function ResetPasswordPage() {
   return (
     <>
-      <section className="p-[20px]">
+      <section className="py-[20px]">
         <ResetPasswordForm />
       </section>
     </>
   );
-};
-
-export default page;
+}

@@ -6,14 +6,12 @@ export const metadata: Metadata = {
   title: "Signup | Agencio",
 };
 
-const page = () => {
+export default function SignupPage() {
   return (
     <>
-      <section className="p-[20px]">
+      <section className="py-[20px]">
         <SignupForm />
       </section>
     </>
   );
-};
-
-export default page;
+}
