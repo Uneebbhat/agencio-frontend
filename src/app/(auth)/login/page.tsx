@@ -1,17 +1,11 @@
-import LoginForm from "@/components/Login/LoginForm";
-import { Metadata } from "next";
-import React from "react";
-
-export const metadata: Metadata = {
-  title: "Login | Agencio",
-};
+import { LoginForm } from "@/modules/auth/components/login-form";
 
 export default function LoginPage() {
   return (
-    <>
-      <section className="py-[20px]">
+    <div className="bg-background flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+      <div className="w-full max-w-sm">
         <LoginForm />
-      </section>
-    </>
+      </div>
+    </div>
   );
 }
